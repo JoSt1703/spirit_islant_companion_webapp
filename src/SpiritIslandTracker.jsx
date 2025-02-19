@@ -239,20 +239,17 @@ export default function SpiritIslandTracker() {
   );
 }
 
-// A small component for adding a new requirement to an innate tracker
 function AvailableElementSelector({ trackerIndex, tracker, addElementRequirement }) {
   const availableElements = innateElements.filter(
     (el) => !(el.name in tracker.requirements)
   );
-  const [selectedElement, setSelectedElement] = useState(
-    availableElements.length > 0 ? availableElements[0].name : ""
-  );
 
+  const [selectedElement, setSelectedElement] = useState("");
+
+  // Ensure the dropdown has a valid initial selection when available elements change
   useEffect(() => {
     if (availableElements.length > 0) {
       setSelectedElement(availableElements[0].name);
-    } else {
-      setSelectedElement("");
     }
   }, [availableElements]);
 
@@ -271,7 +268,11 @@ function AvailableElementSelector({ trackerIndex, tracker, addElementRequirement
             ))}
           </select>
           <button
-            onClick={() => addElementRequirement(trackerIndex, selectedElement)}
+            onClick={() => {
+              if (selectedElement) {
+                addElementRequirement(trackerIndex, selectedElement);
+              }
+            }}
           >
             Add Requirement
           </button>
