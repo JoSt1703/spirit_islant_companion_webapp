@@ -9,7 +9,7 @@ const elements = [
   { name: "Moon", emoji: "🌙" },
   { name: "Plant", emoji: "🌿" },
   { name: "Animal", emoji: "🐾" },
-  { name: "Energy", emoji: "⚡" } // Energy element remains unchanged
+  { name: "Energy", emoji: "⚡" }
 ];
 
 export default function SpiritIslandTracker() {
@@ -41,6 +41,12 @@ export default function SpiritIslandTracker() {
 
   return (
     <div style={{ textAlign: "center", margin: "20px" }}>
+      {/* Reset Button at the Top */}
+      <button onClick={resetCounts} style={{ marginBottom: "20px" }}>
+        Reset Other Elements
+      </button>
+      
+      {/* Element Tracker */}
       <div style={{ display: "flex", justifyContent: "center" }}>
         {elements.map((el) => (
           <div key={el.name} style={{ margin: "0 10px", textAlign: "center" }}>
@@ -53,7 +59,6 @@ export default function SpiritIslandTracker() {
           </div>
         ))}
       </div>
-      <button onClick={resetCounts}>Reset Other Elements</button>
     </div>
   );
 }
