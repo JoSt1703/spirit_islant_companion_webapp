@@ -9,7 +9,8 @@ const elements = [
   { name: "Earth", emoji: "🪨" },
   { name: "Plant", emoji: "🌿" },
   { name: "Animal", emoji: "🐾" },
-  { name: "Energy", emoji: "⚡" }
+  { name: "Energy", emoji: "⚡" },
+  { name: "Wild Card", emoji: "🃏" } // Added Wild Card element
 ];
 
 // For innate trackers, we exclude Energy.
@@ -40,7 +41,8 @@ export default function SpiritIslandTracker() {
       Earth: 0,
       Plant: 0,
       Animal: 0,
-      Energy: counts["Energy"]
+      Energy: counts["Energy"],
+      "Wild Card": counts["Wild Card"] // Retain Wild Card count
     });
   };
 
@@ -52,10 +54,10 @@ export default function SpiritIslandTracker() {
   // Create a new innate tracker with no requirements initially.
   const createInnateTracker = () => ({ requirements: {} });
 
-  // Add/Remove entire innate tracker (max 10)
+  // Add/Remove entire innate tracker (max 12)
   const addInnateTracker = () => {
     setInnateTrackers((prev) =>
-      prev.length < 10 ? [...prev, createInnateTracker()] : prev
+      prev.length < 12 ? [...prev, createInnateTracker()] : prev
     );
   };
 
@@ -150,7 +152,7 @@ export default function SpiritIslandTracker() {
           </button>
           <button
             onClick={addInnateTracker}
-            disabled={innateTrackers.length >= 5}
+            disabled={innateTrackers.length >= 12} // Changed max limit to 12
             style={{ marginLeft: "10px" }}
           >
             Add Innate Tracker
