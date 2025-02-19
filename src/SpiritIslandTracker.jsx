@@ -1,19 +1,19 @@
 import React, { useState } from "react";
 
 const elements = [
-  { name: "Fire", emoji: "🔥" },
-  { name: "Water", emoji: "💧" },
-  { name: "Earth", emoji: "🪨" },
-  { name: "Air", emoji: "🌪️" },
   { name: "Sun", emoji: "☀️" },
   { name: "Moon", emoji: "🌙" },
+  { name: "Fire", emoji: "🔥" },
+  { name: "Air", emoji: "🌪️" },
+  { name: "Water", emoji: "💧" },
+  { name: "Earth", emoji: "🪨" },
   { name: "Plant", emoji: "🌿" },
   { name: "Animal", emoji: "🐾" },
   { name: "Energy", emoji: "⚡" }
 ];
 
-// For enate trackers, we exclude Energy.
-const enateElements = elements.filter(el => el.name !== "Energy");
+// For Innate trackers, we exclude Energy.
+const innateElements = elements.filter(el => el.name !== "Energy");
 
 export default function SpiritIslandTracker() {
   // Original tracker state (this one resets)
@@ -21,12 +21,12 @@ export default function SpiritIslandTracker() {
     elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {})
   );
 
-  // Helper: creates a new enate tracker (without Energy)
-  const createEnateTracker = () =>
-    enateElements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {});
+  // Helper: creates a new innate tracker (without Energy)
+  const createInnateTracker = () =>
+    innateElements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {});
 
-  // Enate trackers state: start with 0 enate trackers
-  const [enateTrackers, setEnateTrackers] = useState([]);
+  // Innate trackers state: start with 0 innate trackers
+  const [innateTrackers, setInnateTrackers] = useState([]);
 
   // Update original tracker counts
   const updateCount = (element, delta) => {
@@ -36,9 +36,9 @@ export default function SpiritIslandTracker() {
     }));
   };
 
-  // Update a specific enate tracker by its index
-  const updateEnateTracker = (trackerIndex, element, delta) => {
-    setEnateTrackers(prev =>
+  // Update a specific innate tracker by its index
+  const updateInnateTracker = (trackerIndex, element, delta) => {
+    setInnateTrackers(prev =>
       prev.map((tracker, index) =>
         index === trackerIndex
           ? { ...tracker, [element]: Math.max(0, tracker[element] + delta) }
@@ -50,26 +50,26 @@ export default function SpiritIslandTracker() {
   // Reset the original tracker (leaving Energy unchanged on purpose)
   const resetCounts = () => {
     setCounts({
-      Fire: 0,
-      Water: 0,
-      Earth: 0,
-      Air: 0,
       Sun: 0,
       Moon: 0,
+      Fire: 0,
+      Air: 0,
+      Water: 0,
+      Earth: 0,
       Plant: 0,
       Animal: 0,
       Energy: counts["Energy"]
     });
   };
 
-  // Add an enate tracker (max 5)
-  const addEnateTracker = () => {
-    setEnateTrackers(prev => (prev.length < 5 ? [...prev, createEnateTracker()] : prev));
+  // Add an innate tracker (max 5)
+  const addInnateTracker = () => {
+    setInnateTrackers(prev => (prev.length < 5 ? [...prev, createInnateTracker()] : prev));
   };
 
-  // Remove an enate tracker (min 0)
-  const removeEnateTracker = () => {
-    setEnateTrackers(prev => (prev.length > 0 ? prev.slice(0, prev.length - 1) : prev));
+  // Remove an innate tracker (min 0)
+  const removeInnateTracker = () => {
+    setInnateTrackers(prev => (prev.length > 0 ? prev.slice(0, prev.length - 1) : prev));
   };
 
   return (
@@ -96,18 +96,18 @@ export default function SpiritIslandTracker() {
         </div>
       </div>
 
-      {/* Enate Trackers Section */}
+      {/* Innate Trackers Section */}
       <div style={{ marginTop: "40px" }}>
-        <h2>Enate Trackers</h2>
+        <h2>Innate Trackers</h2>
         <div style={{ marginBottom: "10px" }}>
-          <button onClick={removeEnateTracker} disabled={enateTrackers.length === 0}>
-            Remove Enate Tracker
+          <button onClick={removeInnateTracker} disabled={innateTrackers.length === 0}>
+            Remove Innate Tracker
           </button>
-          <button onClick={addEnateTracker} disabled={enateTrackers.length >= 5} style={{ marginLeft: "10px" }}>
-            Add Enate Tracker
+          <button onClick={addInnateTracker} disabled={innateTrackers.length >= 5} style={{ marginLeft: "10px" }}>
+            Add Innate Tracker
           </button>
         </div>
-        {enateTrackers.map((tracker, trackerIndex) => (
+        {innateTrackers.map((tracker, trackerIndex) => (
           <div
             key={trackerIndex}
             style={{
@@ -117,15 +117,15 @@ export default function SpiritIslandTracker() {
               borderRadius: "4px"
             }}
           >
-            <h3>Enate Tracker #{trackerIndex + 1}</h3>
+            <h3>Innate Tracker #{trackerIndex + 1}</h3>
             <div style={{ display: "flex", justifyContent: "center" }}>
-              {enateElements.map(el => (
+              {innateElements.map(el => (
                 <div key={el.name} style={{ margin: "0 10px", textAlign: "center" }}>
                   <div style={{ fontSize: "2em" }}>{el.emoji}</div>
                   <div style={{ fontSize: "1.5em" }}>{tracker[el.name]}</div>
                   <div>
-                    <button onClick={() => updateEnateTracker(trackerIndex, el.name, 1)}>+</button>
-                    <button onClick={() => updateEnateTracker(trackerIndex, el.name, -1)}>-</button>
+                    <button onClick={() => updateInnateTracker(trackerIndex, el.name, 1)}>+</button>
+                    <button onClick={() => updateInnateTracker(trackerIndex, el.name, -1)}>-</button>
                   </div>
                   {/* Fulfillment indicator */}
                   <div style={{ fontSize: "1.2em", marginTop: "5px" }}>
