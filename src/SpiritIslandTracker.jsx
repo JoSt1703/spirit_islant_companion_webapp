@@ -9,7 +9,7 @@ const elements = [
   { name: "Moon", emoji: "🌙" },
   { name: "Plant", emoji: "🌿" },
   { name: "Animal", emoji: "🐾" },
-  { name: "Energy", emoji: "⚡" } // Added Energy element
+  { name: "Energy", emoji: "⚡" } // Energy element remains unchanged
 ];
 
 export default function SpiritIslandTracker() {
@@ -21,6 +21,21 @@ export default function SpiritIslandTracker() {
     setCounts((prev) => ({
       ...prev,
       [element]: Math.max(0, prev[element] + delta)
+    }));
+  };
+
+  const resetCounts = () => {
+    setCounts((prev) => ({
+      ...prev,
+      Fire: 0,
+      Water: 0,
+      Earth: 0,
+      Air: 0,
+      Sun: 0,
+      Moon: 0,
+      Plant: 0,
+      Animal: 0,
+      // Keep Energy unchanged
     }));
   };
 
@@ -38,6 +53,7 @@ export default function SpiritIslandTracker() {
           </div>
         ))}
       </div>
+      <button onClick={resetCounts}>Reset Other Elements</button>
     </div>
   );
 }
