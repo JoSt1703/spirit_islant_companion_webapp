@@ -3,11 +3,11 @@ import { useState } from "react";
 const elements = [
   { name: "Fire", emoji: "🔥" },
   { name: "Water", emoji: "💧" },
-  { name: "Earth", emoji: "🪨" }, // Rock for Earth
-  { name: "Air", emoji: "🌪️" }, // Tornado for Air
+  { name: "Earth", emoji: "🪨" }, 
+  { name: "Air", emoji: "🌪️" }, 
   { name: "Sun", emoji: "☀️" },
   { name: "Moon", emoji: "🌙" },
-  { name: "Plant", emoji: "🌿" }, // Herb for Plant
+  { name: "Plant", emoji: "🌿" }, 
   { name: "Animal", emoji: "🐾" }
 ];
 
