@@ -9,7 +9,7 @@ const elements = [
   { name: "Moon", emoji: "🌙" },
   { name: "Plant", emoji: "🌿" },
   { name: "Animal", emoji: "🐾" },
-  { name: "Energy", emoji: "⚡" }
+  { name: "Energy", emoji: "⚡" } // Added Energy element
 ];
 
 export default function SpiritIslandTracker() {
@@ -28,23 +28,13 @@ export default function SpiritIslandTracker() {
     <div style={{ textAlign: "center", margin: "20px" }}>
       <div style={{ display: "flex", justifyContent: "center" }}>
         {elements.map((el) => (
-          <div key={el.name} style={{ margin: "0 10px", fontSize: "2em" }}>
-            {el.emoji}
-          </div>
-        ))}
-      </div>
-      <div style={{ display: "flex", justifyContent: "center", fontSize: "1.5em" }}>
-        {elements.map((el) => (
-          <div key={el.name} style={{ margin: "0 10px" }}>
-            {counts[el.name]}
-          </div>
-        ))}
-      </div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        {elements.map((el) => (
-          <div key={el.name} style={{ margin: "0 10px" }}>
-            <button onClick={() => updateCount(el.name, 1)}>+</button>
-            <button onClick={() => updateCount(el.name, -1)}>-</button>
+          <div key={el.name} style={{ margin: "0 10px", textAlign: "center" }}>
+            <div style={{ fontSize: "2em" }}>{el.emoji}</div>
+            <div style={{ fontSize: "1.5em" }}>{counts[el.name]}</div>
+            <div>
+              <button onClick={() => updateCount(el.name, 1)}>+</button>
+              <button onClick={() => updateCount(el.name, -1)}>-</button>
+            </div>
           </div>
         ))}
       </div>
