@@ -12,10 +12,14 @@ const elements = [
   { name: "Energy", emoji: "⚡" }
 ];
 
+const initialEnateRows = Array(8).fill({ element: "Fire", required: 0 });
+
 export default function SpiritIslandTracker() {
   const [counts, setCounts] = useState(
     elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {})
   );
+
+  const [enateRows, setEnateRows] = useState(initialEnateRows);
 
   const updateCount = (element, delta) => {
     setCounts((prev) => ({
@@ -39,11 +43,20 @@ export default function SpiritIslandTracker() {
     }));
   };
 
+  const handleEnateChange = (index, value) => {
+    const newRows = [...enateRows];
+    newRows[index].required = Math.max(0, Number(value)); 
+    setEnateRows(newRows);
+  };
+
   return (
     <div style={{ textAlign: "center", margin: "20px" }}>
+      {/* Total Count Display */}
+      <h2>Total Count: {Object.values(counts).reduce((acc, count) => acc + count, 0)}</h2>
+      
       {/* Reset Button at the Top */}
       <button onClick={resetCounts} style={{ marginBottom: "20px" }}>
-        Reset Other Elements
+        Reset Elements
       </button>
       
       {/* Element Tracker */}
@@ -53,12 +66,42 @@ export default function SpiritIslandTracker() {
             <div style={{ fontSize: "2em" }}>{el.emoji}</div>
             <div style={{ fontSize: "1.5em" }}>{counts[el.name]}</div>
             <div>
-              <button onClick={() => updateCount(el.name, 1)}>+</button>
-              <button onClick={() => updateCount(el.name, -1)}>-</button>
+              <button onClick={() => updateCount(el.name, 1)} aria-label={`Increase ${el.name} count`} style={{ margin: "5px" }}>+</button>
+              <button onClick={() => updateCount(el.name, -1)} aria-label={`Decrease ${el.name} count`} style={{ margin: "5px" }}>-</button>
             </div>
           </div>
         ))}
       </div>
+
+      {/* Enate Requirements Tracker */}
+      <h3>Enate Requirements</h3>
+      {enateRows.map((row, index) => (
+        <div key={index} style={{ margin: "10px 0" }}>
+          <select
+            value={row.element}
+            onChange={(e) => {
+              const newRows = [...enateRows];
+              newRows[index].element = e.target.value;
+              setEnateRows(newRows);
+            }}
+          >
+            {elements.map((el) => (
+              <option key={el.name} value={el.name}>{el.name}</option>
+            ))}
+          </select>
+          <input
+            type="number"
+            value={row.required}
+            onChange={(e) => handleEnateChange(index, e.target.value)}
+            style={{ margin: "0 10px", width: "50px" }}
+          />
+          <span>
+            {counts[row.element] >= row.required 
+              ? "✅ Met Requirement" 
+              : `❌ Requires ${row.required}, Current: ${counts[row.element]}`}
+          </span>
+        </div>
+      ))}
     </div>
   );
 }
