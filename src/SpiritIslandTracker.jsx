@@ -244,14 +244,9 @@ function AvailableElementSelector({ trackerIndex, tracker, addElementRequirement
     (el) => !(el.name in tracker.requirements)
   );
 
-  const [selectedElement, setSelectedElement] = useState("");
-
-  // Ensure the dropdown has a valid initial selection when available elements change
-  useEffect(() => {
-    if (availableElements.length > 0) {
-      setSelectedElement(availableElements[0].name);
-    }
-  }, [availableElements]);
+  const [selectedElement, setSelectedElement] = useState(
+    availableElements.length > 0 ? availableElements[0].name : ""
+  );
 
   return (
     <div style={{ marginTop: "10px" }}>
