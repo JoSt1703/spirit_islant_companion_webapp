@@ -23,7 +23,7 @@ export default function SpiritIslandTracker() {
   return (
     <div className="flex flex-col items-center p-4 bg-gray-900 min-h-screen text-white">
       <h1 className="text-2xl font-bold mb-4">Spirit Island Element Tracker</h1>
-      <div className="flex flex-row justify-center gap-4">
+      <div className="flex flex-row justify-start gap-4 ml-8"> {/* Added ml-8 for margin */}
         {elements.map(({ name, emoji }) => (
           <div key={name} className="flex flex-col items-center p-2 bg-gray-800 rounded-lg shadow-lg">
             <h2 className="text-lg font-semibold">{emoji}</h2>
