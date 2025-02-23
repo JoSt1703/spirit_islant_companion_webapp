@@ -74,9 +74,11 @@ const SpiritIslandTracker = () => {
         <h2 style={{ fontSize: "1.2em" }}>Select Spirit</h2>
         <select onChange={handleSpiritChange} style={{ fontSize: "0.9em" }}>
           <option value="">Select a Spirit</option>
-          {Object.keys(spiritsData).map((spiritName) => (
-            <option key={spiritName} value={spiritName}>{spiritName}</option>
-          ))}
+          {Object.keys(spiritsData)
+            .sort() // Sort the spirit names alphabetically
+            .map((spiritName) => (
+              <option key={spiritName} value={spiritName}>{spiritName}</option>
+            ))}
         </select>
       </div>
       {selectedSpirit && (
@@ -102,7 +104,7 @@ const SpiritIslandTracker = () => {
                               textAlign: 'center'
                             }}>
                               <div style={{ fontSize: "1.5em" }}>{elements.find(el => el.name === elem.Element)?.emoji || ''}</div>
-                              <div style={{ fontSize: "1.1em" }}>{elem.Quantity}</div> {}
+                              <div style={{ fontSize: "1.1em" }}>{elem.Quantity}</div> {/* Only the required number is displayed */}
                             </div>
                           );
                         })}
