@@ -20,10 +20,10 @@ export default function SpiritIslandTracker() {
     elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {})
   );
 
-  const updateCount = (element, value) => {
+  const updateCount = (element, delta) => {
     setCounts((prev) => ({
       ...prev,
-      [element]: Math.max(0, value)
+      [element]: Math.max(0, prev[element] + delta)
     }));
   };
 
@@ -75,21 +75,20 @@ export default function SpiritIslandTracker() {
   };
 
   return (
-    <div style={{ textAlign: "center", margin: "20px" }}>
-      <button onClick={resetCounts} style={{ marginBottom: "20px" }}>
+    <div style={{ textAlign: "center", margin: "10px" }}>
+      <button onClick={resetCounts} style={{ marginBottom: "10px" }}>
         Reset Elements
       </button>
       <h2>Element Tracker</h2>
-      <div style={{ display: "flex", justifyContent: "center" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
         {elements.map((el) => (
-          <div key={el.name} style={{ margin: "0 10px", textAlign: "center" }}>
-            <div style={{ fontSize: "2em" }}>{el.emoji}</div>
-            <input
-              type="number"
-              min="0"
-              value={counts[el.name]}
-              onChange={(e) => updateCount(el.name, parseInt(e.target.value) || 0)}
-            />
+          <div key={el.name} style={{ margin: "5px", textAlign: "center" }}>
+            <div style={{ fontSize: "1.8em" }}>{el.emoji}</div>
+            <div style={{ fontSize: "1.2em" }}>{counts[el.name]}</div>
+            <div>
+              <button onClick={() => updateCount(el.name, 1)}>+</button>
+              <button onClick={() => updateCount(el.name, -1)}>-</button>
+            </div>
           </div>
         ))}
       </div>
@@ -103,12 +102,12 @@ export default function SpiritIslandTracker() {
       </button>
 
       {innateTrackers.map((tracker, trackerIndex) => (
-        <div key={trackerIndex} style={{ margin: "20px 0", border: "1px solid #ccc", padding: "10px", borderRadius: "4px" }}>
+        <div key={trackerIndex} style={{ margin: "10px 0", border: "1px solid #ccc", padding: "10px", borderRadius: "4px" }}>
           <h3>Innate Tracker #{trackerIndex + 1}</h3>
           {Object.entries(tracker.requirements).map(([elementName, reqCount]) => (
-            <div key={elementName} style={{ margin: "0 10px", textAlign: "center" }}>
-              <div style={{ fontSize: "2em" }}>{innateElements.find((el) => el.name === elementName).emoji}</div>
-              <input type="number" min="0" value={reqCount} disabled />
+            <div key={elementName} style={{ margin: "5px", textAlign: "center" }}>
+              <div style={{ fontSize: "1.8em" }}>{innateElements.find((el) => el.name === elementName).emoji}</div>
+              <div style={{ fontSize: "1.2em", fontWeight: "bold" }}>{reqCount}</div>
             </div>
           ))}
           <AvailableElementSelector
@@ -131,7 +130,7 @@ function AvailableElementSelector({ trackerIndex, tracker, addElementRequirement
   const [selectedValue, setSelectedValue] = useState(1);
 
   return (
-    <div style={{ marginTop: "10px" }}>
+    <div style={{ marginTop: "5px" }}>
       {availableElements.length > 0 ? (
         <>
           <select value={selectedElement} onChange={(e) => setSelectedElement(e.target.value)}>
@@ -139,9 +138,9 @@ function AvailableElementSelector({ trackerIndex, tracker, addElementRequirement
               <option key={el.name} value={el.name}>{el.emoji} {el.name}</option>
             ))}
           </select>
-          <input type="number" min="1" value={selectedValue} onChange={(e) => setSelectedValue(parseInt(e.target.value) || 1)} />
+          <input type="number" min="1" value={selectedValue} onChange={(e) => setSelectedValue(parseInt(e.target.value) || 1)} style={{ width: "40px", marginLeft: "5px" }} />
           <button onClick={() => addElementRequirement(trackerIndex, selectedElement, selectedValue)}>
-            Add Requirement
+            Add
           </button>
         </>
       ) : (
