@@ -83,30 +83,34 @@ const SpiritIslandTracker = () => {
         <div style={{ marginTop: "20px" }}>
           <h2 style={{ fontSize: "1.2em" }}>Innate Requirements for {selectedSpirit.name}</h2>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-            {innateRequirements.map((innate, index) => (
-              <div key={index} style={{ marginBottom: "10px", border: "1px solid #ccc", borderRadius: "5px", padding: "10px", width: "300px" }}>
-                <h3 style={{ fontSize: "1.1em" }}>{innate.name}</h3>
-                {innate.thresholds.map((threshold, thresholdIndex) => (
-                  <div key={thresholdIndex} style={{ marginBottom: "5px" }}>
-                    {Object.entries(threshold).map(([elementName, reqCount]) => {
-                      const hasRequirement = counts[elementName] >= reqCount;
-                      return (
-                        <div key={elementName} style={{
-                          border: `2px solid ${hasRequirement ? 'green' : 'red'}`,
-                          borderRadius: '5px',
-                          padding: '5px',
-                          margin: '5px 0',
-                          textAlign: 'center'
-                        }}>
-                          <div style={{ fontSize: "1.5em" }}>{elements.find(el => el.name === elementName).emoji}</div>
-                          <div style={{ fontSize: "1.1em" }}>Required: {reqCount} | Current: {counts[elementName]}</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                ))}
-              </div>
-            ))}
+            {innateRequirements.length > 0 ? (
+              innateRequirements.map((innate, index) => (
+                <div key={index} style={{ marginBottom: "10px", border: "1px solid #ccc", borderRadius: "5px", padding: "10px", width: "300px" }}>
+                  <h3 style={{ fontSize: "1.1em" }}>{innate.name}</h3>
+                  {innate.thresholds.map((threshold, thresholdIndex) => (
+                    <div key={thresholdIndex} style={{ marginBottom: "5px" }}>
+                      {Object.entries(threshold).map(([elementName, reqCount]) => {
+                        const hasRequirement = counts[elementName] >= reqCount;
+                        return (
+                          <div key={elementName} style={{
+                            border: `2px solid ${hasRequirement ? 'green' : 'red'}`,
+                            borderRadius: '5px',
+                            padding: '5px',
+                            margin: '5px 0',
+                            textAlign: 'center'
+                          }}>
+                            <div style={{ fontSize: "1.5em" }}>{elements.find(el => el.name === elementName)?.emoji || ''}</div>
+                            <div style={{ fontSize: "1.1em" }}>Required: {reqCount} | Current: {counts[elementName]}</div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
+              ))
+            ) : (
+              <p>No innate requirements available.</p>
+            )}
           </div>
         </div>
       )}
