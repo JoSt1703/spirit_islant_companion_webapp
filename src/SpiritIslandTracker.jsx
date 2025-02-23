@@ -45,7 +45,7 @@ const SpiritIslandTracker = () => {
 
   const handleSpiritChange = (event) => {
     const spiritName = event.target.value;
-    const spirit = spiritsData[spiritName]; // Adjusting to the new structure
+    const spirit = spiritsData[spiritName];
     setSelectedSpirit(spiritName);
     setInnateRequirements(spirit ? spirit : []); // Set to the spirit's innates or an empty array
   };
@@ -82,30 +82,33 @@ const SpiritIslandTracker = () => {
       {selectedSpirit && (
         <div style={{ marginTop: "20px" }}>
           <h2 style={{ fontSize: "1.2em" }}>Innate Requirements for {selectedSpirit}</h2>
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
             {innateRequirements.length > 0 ? (
               innateRequirements.map((innate, index) => (
-                <div key={index} style={{ marginBottom: "10px", border: "1px solid #ccc", borderRadius: "5px", padding: "10px", width: "300px" }}>
+                <div key={index} style={{ margin: "10px", border: "1px solid #ccc", borderRadius: "5px", padding: "10px", width: "300px" }}>
                   <h3 style={{ fontSize: "1.1em" }}>{innate.Innate}</h3>
-                  {innate.Thresholds.map((threshold, thresholdIndex) => (
-                    <div key={thresholdIndex} style={{ marginBottom: "5px" }}>
-                      {threshold.Elements.map((elem, elemIndex) => {
-                        const hasRequirement = counts[elem.Element] >= elem.Quantity;
-                        return (
-                          <div key={elemIndex} style={{
-                            border: `2px solid ${hasRequirement ? 'green' : 'red'}`,
-                            borderRadius: '5px',
-                            padding: '5px',
-                            margin: '5px 0',
-                            textAlign: 'center'
-                          }}>
-                            <div style={{ fontSize: "1.5em" }}>{elements.find(el => el.name === elem.Element)?.emoji || ''}</div>
-                            <div style={{ fontSize: "1.1em" }}>Required: {elem.Quantity} | Current: {counts[elem.Element]}</div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ))}
+                  <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
+                    {innate.Thresholds.map((threshold, thresholdIndex) => (
+                      <div key={thresholdIndex} style={{ marginBottom: "5px", padding: "5px", border: "1px solid #ddd", borderRadius: "5px", width: "100%" }}>
+                        <h4 style={{ fontSize: "1em" }}>Threshold {thresholdIndex + 1}</h4>
+                        {threshold.Elements.map((elem, elemIndex) => {
+                          const hasRequirement = counts[elem.Element] >= elem.Quantity;
+                          return (
+                            <div key={elemIndex} style={{
+                              border: `2px solid ${hasRequirement ? 'green' : 'red'}`,
+                              borderRadius: '5px',
+                              padding: '5px',
+                              margin: '5px 0',
+                              textAlign: 'center'
+                            }}>
+                              <div style={{ fontSize: "1.5em" }}>{elements.find(el => el.name === elem.Element)?.emoji || ''}</div>
+                              <div style={{ fontSize: "1.1em" }}>{elem.Quantity}</div> {}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))
             ) : (
