@@ -138,9 +138,9 @@ export default function SpiritIslandTracker() {
                   <button onClick={() => removeElementRequirement(index, elementName)}>Remove</button>
                   {/* Add the indicator below the element */}
                   {counts[elementName] >= reqCount ? (
-                    <div style={{ color: 'green' }}>✔️</div> // Change to 'X' if needed
+                    <div style={{ color: 'green' }}>🟢</div>
                   ) : (
-                    <div style={{ color: 'red' }}>✖️</div> // Change to '✔️' if you want a tick instead
+                    <div style={{ color: 'red' }}>🔴</div> 
                   )}
                 </div>
               ))}
