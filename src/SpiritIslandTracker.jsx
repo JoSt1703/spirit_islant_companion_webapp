@@ -62,12 +62,23 @@ export default function SpiritIslandTracker() {
     setInnateTrackers((prev) =>
       prev.map((tracker, index) => {
         if (index === trackerIndex) {
-          if (tracker.requirements[element] === undefined) {
-            return {
-              ...tracker,
-              requirements: { ...tracker.requirements, [element]: value }
-            };
-          }
+          return {
+            ...tracker,
+            requirements: { ...tracker.requirements, [element]: value }
+          };
+        }
+        return tracker;
+      })
+    );
+  };
+
+  const removeElementRequirement = (trackerIndex, element) => {
+    setInnateTrackers((prev) =>
+      prev.map((tracker, index) => {
+        if (index === trackerIndex) {
+          const updatedRequirements = { ...tracker.requirements };
+          delete updatedRequirements[element];
+          return { ...tracker, requirements: updatedRequirements };
         }
         return tracker;
       })
@@ -104,12 +115,15 @@ export default function SpiritIslandTracker() {
       {innateTrackers.map((tracker, trackerIndex) => (
         <div key={trackerIndex} style={{ margin: "10px 0", border: "1px solid #ccc", padding: "10px", borderRadius: "4px" }}>
           <h3>Innate Tracker #{trackerIndex + 1}</h3>
-          {Object.entries(tracker.requirements).map(([elementName, reqCount]) => (
-            <div key={elementName} style={{ margin: "5px", textAlign: "center" }}>
-              <div style={{ fontSize: "1.8em" }}>{innateElements.find((el) => el.name === elementName).emoji}</div>
-              <div style={{ fontSize: "1.2em", fontWeight: "bold" }}>{reqCount}</div>
-            </div>
-          ))}
+          <div style={{ display: "flex", flexWrap: "wrap", justifyContent: "center" }}>
+            {Object.entries(tracker.requirements).map(([elementName, reqCount]) => (
+              <div key={elementName} style={{ margin: "5px", textAlign: "center" }}>
+                <div style={{ fontSize: "1.8em" }}>{innateElements.find((el) => el.name === elementName).emoji}</div>
+                <div style={{ fontSize: "1.2em", fontWeight: "bold" }}>{reqCount}</div>
+                <button onClick={() => removeElementRequirement(trackerIndex, elementName)}>Remove</button>
+              </div>
+            ))}
+          </div>
           <AvailableElementSelector
             trackerIndex={trackerIndex}
             tracker={tracker}
