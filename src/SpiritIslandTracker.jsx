@@ -244,9 +244,18 @@ function AvailableElementSelector({ trackerIndex, tracker, addElementRequirement
     (el) => !(el.name in tracker.requirements)
   );
 
+  // Ensure selectedElement updates when availableElements change
   const [selectedElement, setSelectedElement] = useState(
     availableElements.length > 0 ? availableElements[0].name : ""
   );
+
+  useEffect(() => {
+    if (availableElements.length > 0) {
+      setSelectedElement(availableElements[0].name);
+    } else {
+      setSelectedElement(""); // Reset if no elements available
+    }
+  }, [availableElements]);
 
   return (
     <div style={{ marginTop: "10px" }}>
