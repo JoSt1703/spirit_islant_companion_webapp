@@ -132,18 +132,22 @@ export default function SpiritIslandTracker() {
                 addElementRequirement={addElementRequirement}
               />
               <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginTop: "5px" }}>
-                {Object.entries(tracker.requirements).map(([elementName, reqCount]) => (
-                  <div key={elementName} style={{ margin: "5px 0", textAlign: "center" }}>
-                    <div style={{ fontSize: "1.5em" }}>{innateElements.find(el => el.name === elementName).emoji}</div>
-                    <div style={{ fontSize: "1.1em" }}>{reqCount}</div>
-                    <button onClick={() => removeElementRequirement(index, elementName)} style={{ fontSize: "0.9em" }}>Remove</button>
-                    {counts[elementName] >= reqCount ? (
-                      <div style={{ color: 'green' }}>🟢</div>
-                    ) : (
-                      <div style={{ color: 'red' }}>🔴</div>
-                    )}
-                  </div>
-                ))}
+                {Object.entries(tracker.requirements).map(([elementName, reqCount]) => {
+                  const hasRequirement = counts[elementName] >= reqCount;
+                  return (
+                    <div key={elementName} style={{
+                      border: `2px solid ${hasRequirement ? 'green' : 'red'}`,
+                      borderRadius: '5px',
+                      padding: '5px',
+                      margin: '5px 0',
+                      textAlign: 'center'
+                    }}>
+                      <div style={{ fontSize: "1.5em" }}>{innateElements.find(el => el.name === elementName).emoji}</div>
+                      <div style={{ fontSize: "1.1em" }}>{reqCount}</div>
+                      <button onClick={() => removeElementRequirement(index, elementName)} style={{ fontSize: "0.9em" }}>Remove</button>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           ))}
