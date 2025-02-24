@@ -53,13 +53,11 @@ const SpiritIslandTracker = () => {
   return (
     <div
       style={{
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
         textAlign: "center",
-        width: "80%",
-        maxWidth: "600px",
+        width: "100%",
       }}
     >
       <button
@@ -69,19 +67,20 @@ const SpiritIslandTracker = () => {
         Reset Elements
       </button>
 
+      {/* Element Tracker - Always centered in one line */}
       <div
         style={{
           display: "flex",
           justifyContent: "center",
+          gap: "10px",
           flexWrap: "nowrap",
-          overflowX: "auto",
+          maxWidth: "100%",
         }}
       >
         {elements.map((el) => (
           <div
             key={el.name}
             style={{
-              margin: "5px",
               textAlign: "center",
               flex: "0 0 auto",
               minWidth: "50px",
