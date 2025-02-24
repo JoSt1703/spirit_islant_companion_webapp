@@ -57,51 +57,60 @@ const SpiritIslandTracker = () => {
         flexDirection: "column",
         alignItems: "center",
         textAlign: "center",
-        width: "100%",
+        width: "90vw", // Adds left & right margin
+        minHeight: "90vh", // Adds top & bottom margin
+        padding: "20px",
+        margin: "5vh auto", // Centers vertically with margin
       }}
     >
       <button
         onClick={resetCounts}
-        style={{ marginBottom: "10px", fontSize: "0.8em" }}
+        style={{
+          marginBottom: "15px",
+          fontSize: "1em",
+          padding: "8px 16px",
+        }}
       >
         Reset Elements
       </button>
 
-      {/* Element Tracker - Always centered in one line */}
+      {/* Element Tracker - Always visible & centered */}
       <div
         style={{
-          display: "flex",
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(60px, 1fr))",
           justifyContent: "center",
-          gap: "10px",
-          flexWrap: "nowrap",
-          maxWidth: "100%",
+          alignItems: "center",
+          gap: "15px",
+          width: "100%",
+          maxWidth: "600px",
         }}
       >
         {elements.map((el) => (
-          <div
-            key={el.name}
-            style={{
-              textAlign: "center",
-              flex: "0 0 auto",
-              minWidth: "50px",
-            }}
-          >
+          <div key={el.name} style={{ textAlign: "center" }}>
             <img
               src={el.image}
               alt={el.name}
-              style={{ width: "30px", height: "30px" }}
+              style={{ width: "45px", height: "45px" }}
             />
-            <div style={{ fontSize: "0.9em" }}>{counts[el.name]}</div>
+            <div style={{ fontSize: "1em" }}>{counts[el.name]}</div>
             <div>
               <button
                 onClick={() => updateCount(el.name, 1)}
-                style={{ fontSize: "0.7em" }}
+                style={{
+                  fontSize: "0.9em",
+                  padding: "4px",
+                  marginRight: "2px",
+                }}
               >
                 +
               </button>
               <button
                 onClick={() => updateCount(el.name, -1)}
-                style={{ fontSize: "0.7em" }}
+                style={{
+                  fontSize: "0.9em",
+                  padding: "4px",
+                }}
               >
                 -
               </button>
@@ -110,8 +119,16 @@ const SpiritIslandTracker = () => {
         ))}
       </div>
 
-      <div style={{ marginTop: "10px" }}>
-        <select onChange={handleSpiritChange} style={{ fontSize: "0.8em" }}>
+      {/* Spirit Selector - Centered */}
+      <div style={{ marginTop: "20px" }}>
+        <select
+          onChange={handleSpiritChange}
+          style={{
+            fontSize: "1em",
+            padding: "6px",
+            margin: "10px 0",
+          }}
+        >
           <option value="">Select a Spirit</option>
           {Object.keys(spiritsData)
             .sort()
@@ -123,82 +140,61 @@ const SpiritIslandTracker = () => {
         </select>
       </div>
 
+      {/* Scrollable Innates Section */}
       {selectedSpirit && (
-        <div
-          style={{
-            marginTop: "10px",
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-          }}
-        >
+        <div style={{ marginTop: "20px", overflowY: "auto", width: "100%" }}>
           {innateRequirements.map((innate, index) => (
             <div
               key={index}
               style={{
-                margin: "5px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                padding: "5px",
-                minWidth: "200px",
+                margin: "5px auto",
+                padding: "10px",
+                minWidth: "250px",
+                maxWidth: "90%",
               }}
             >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                {innate.Thresholds.map((threshold, thresholdIndex) => (
-                  <div
-                    key={thresholdIndex}
-                    style={{
-                      marginBottom: "5px",
-                      padding: "5px",
-                      border: "none", // Invisible border
-                      borderRadius: "5px",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {threshold.Elements.filter(
-                      (elem) => elem.Element !== "Energy"
-                    ).map((elem, elemIndex) => {
-                      const hasRequirement =
-                        counts[elem.Element] >= elem.Quantity;
+              {innate.Thresholds.map((threshold, thresholdIndex) => (
+                <div
+                  key={thresholdIndex}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "10px",
+                  }}
+                >
+                  {threshold.Elements.filter((elem) => elem.Element !== "Energy").map(
+                    (elem, elemIndex) => {
+                      const hasRequirement = counts[elem.Element] >= elem.Quantity;
                       return (
                         <div
                           key={elemIndex}
                           style={{
-                            border: `2px solid ${
-                              hasRequirement ? "green" : "red"
-                            }`,
-                            borderRadius: "5px",
                             padding: "5px",
-                            margin: "2px",
+                            margin: "5px",
                             textAlign: "center",
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
                           }}
                         >
-                          {elements.find((el) => el.name === elem.Element)
-                            ?.image ? (
-                            <img
-                              src={
-                                elements.find((el) => el.name === elem.Element)
-                                  ?.image
-                              }
-                              alt={elem.Element}
-                              style={{ width: "30px", height: "30px" }}
-                            />
-                          ) : (
-                            <div style={{ fontSize: "1.5em" }}>❓</div> // Emoji fallback
-                          )}
-                          <div style={{ fontSize: "0.8em" }}>
-                            {elem.Quantity}
-                          </div>
+                          <img
+                            src={
+                              elements.find((el) => el.name === elem.Element)?.image
+                            }
+                            alt={elem.Element}
+                            style={{
+                              width: "30px",
+                              height: "30px",
+                              opacity: hasRequirement ? "1" : "0.5",
+                            }}
+                          />
+                          <div style={{ fontSize: "0.9em" }}>{elem.Quantity}</div>
                         </div>
                       );
-                    })}
-                  </div>
-                ))}
-              </div>
+                    }
+                  )}
+                </div>
+              ))}
             </div>
           ))}
         </div>
