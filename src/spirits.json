@@ -1320,9 +1320,6 @@
                 "Innate": "EXPLOSIVE ERUPTION",
                 "Thresholds": [
                     {
-                        "Elements": []
-                    },
-                    {
                         "Elements": [
                             {
                                 "Quantity": 2,

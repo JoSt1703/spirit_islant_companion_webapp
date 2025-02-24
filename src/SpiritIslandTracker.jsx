@@ -42,9 +42,21 @@ const SpiritIslandTracker = () => {
     }));
   };
 
-  // Reset all counts dynamically
+  // Reset all counts except for Energy
   const resetCounts = () => {
-    setCounts(elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {}));
+    setCounts((prev) => ({
+      ...prev,
+      Sun: 0,
+      Moon: 0,
+      Fire: 0,
+      Air: 0,
+      Water: 0,
+      Earth: 0,
+      Plant: 0,
+      Animal: 0,
+      // Energy remains unchanged
+      Presence: 0,
+    }));
   };
 
   // Handle spirit selection
@@ -61,7 +73,6 @@ const SpiritIslandTracker = () => {
         Reset Elements
       </button>
       <div>
-        <h2 style={{ fontSize: "1.2em" }}>Element Tracker</h2>
         <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
           {elements.map((el) => (
             <div key={el.name} style={{ margin: "5px", textAlign: "center", flex: "1 0 9%", maxWidth: "60px" }}>
@@ -76,7 +87,6 @@ const SpiritIslandTracker = () => {
         </div>
       </div>
       <div style={{ marginTop: "20px" }}>
-        <h2 style={{ fontSize: "1.2em" }}>Select Spirit</h2>
         <select onChange={handleSpiritChange} style={{ fontSize: "0.9em" }}>
           <option value="">Select a Spirit</option>
           {Object.keys(spiritsData)
@@ -88,7 +98,6 @@ const SpiritIslandTracker = () => {
       </div>
       {selectedSpirit && (
         <div style={{ marginTop: "20px" }}>
-          <h2 style={{ fontSize: "1.2em" }}>Innate Requirements for {selectedSpirit}</h2>
           <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
             {innateRequirements.length > 0 ? (
               innateRequirements.map((innate, index) => (
@@ -98,7 +107,7 @@ const SpiritIslandTracker = () => {
                     {innate.Thresholds.map((threshold, thresholdIndex) => (
                       <div key={thresholdIndex} style={{ marginBottom: "5px", padding: "5px", border: "1px solid #ddd", borderRadius: "5px", width: "100%" }}>
                         <h4 style={{ fontSize: "1em" }}>Threshold {thresholdIndex + 1}</h4>
-                        {threshold.Elements.filter(elem => elem.Element !== "Energy").map((elem, elemIndex) => { 
+                        {threshold.Elements.filter(elem => elem.Element !== "Energy").map((elem, elemIndex) => { // 🚨 Energy removed from display
                           const hasRequirement = counts[elem.Element] >= elem.Quantity;
                           return (
                             <div key={elemIndex} style={{
