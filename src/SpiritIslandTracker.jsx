@@ -1,17 +1,24 @@
 import React, { useState } from "react";
-import spiritsData from "./spirits.json"; // Adjust the path as necessary
+import spiritsData from "./spirits.json"; 
+import airImg from "./assets/air.png";
+import fireImg from "./assets/fire.png";
+import waterImg from "./assets/water.png";
+import earthImg from "./assets/earth.png";
+import plantImg from "./assets/plant.png";
+import animalImg from "./assets/animal.png";
+import moonImg from "./assets/moon.png";
+import sunImg from "./assets/sun.png";
 
 const elements = [
   { name: "Energy", emoji: "⚡" },
-  { name: "Sun", emoji: "☀️" },
-  { name: "Moon", emoji: "🌙" },
-  { name: "Fire", emoji: "🔥" },
-  { name: "Air", emoji: "🌪️" },
-  { name: "Water", emoji: "💧" },
-  { name: "Earth", emoji: "🪨" },
-  { name: "Plant", emoji: "🌿" },
-  { name: "Animal", emoji: "🐾" },
-  { name: "Wild Card", emoji: "🃏" }
+  { name: "Sun", image: sunImg },
+  { name: "Moon", image: moonImg },
+  { name: "Fire", image: fireImg },
+  { name: "Air", image: airImg },
+  { name: "Water", image: waterImg },
+  { name: "Earth", image: earthImg },
+  { name: "Plant", image: plantImg },
+  { name: "Animal", image: animalImg },
 ];
 
 const SpiritIslandTracker = () => {
@@ -21,6 +28,7 @@ const SpiritIslandTracker = () => {
   const [selectedSpirit, setSelectedSpirit] = useState(null);
   const [innateRequirements, setInnateRequirements] = useState([]);
 
+  // Function to update element counts
   const updateCount = (element, delta) => {
     setCounts((prev) => ({
       ...prev,
@@ -28,26 +36,17 @@ const SpiritIslandTracker = () => {
     }));
   };
 
+  // Reset all counts dynamically
   const resetCounts = () => {
-    setCounts((prev) => ({
-      ...prev,
-      Sun: 0,
-      Moon: 0,
-      Fire: 0,
-      Air: 0,
-      Water: 0,
-      Earth: 0,
-      Plant: 0,
-      Animal: 0,
-      "Wild Card": 0
-    }));
+    setCounts(elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {}));
   };
 
+  // Handle spirit selection
   const handleSpiritChange = (event) => {
     const spiritName = event.target.value;
     const spirit = spiritsData[spiritName];
     setSelectedSpirit(spiritName);
-    setInnateRequirements(spirit ? spirit : []); // Set to the spirit's innates or an empty array
+    setInnateRequirements(spirit ? spirit : []);
   };
 
   return (
@@ -60,7 +59,7 @@ const SpiritIslandTracker = () => {
         <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
           {elements.map((el) => (
             <div key={el.name} style={{ margin: "5px", textAlign: "center", flex: "1 0 9%", maxWidth: "60px" }}>
-              <div style={{ fontSize: "1.5em" }}>{el.emoji}</div>
+              <img src={el.image} alt={el.name} style={{ width: "40px", height: "40px" }} />
               <div style={{ fontSize: "1.1em" }}>{counts[el.name]}</div>
               <div>
                 <button onClick={() => updateCount(el.name, 1)} style={{ fontSize: "0.9em" }}>+</button>
@@ -75,7 +74,7 @@ const SpiritIslandTracker = () => {
         <select onChange={handleSpiritChange} style={{ fontSize: "0.9em" }}>
           <option value="">Select a Spirit</option>
           {Object.keys(spiritsData)
-            .sort() // Sort the spirit names alphabetically
+            .sort()
             .map((spiritName) => (
               <option key={spiritName} value={spiritName}>{spiritName}</option>
             ))}
@@ -103,8 +102,10 @@ const SpiritIslandTracker = () => {
                               margin: '5px 0',
                               textAlign: 'center'
                             }}>
-                              <div style={{ fontSize: "1.5em" }}>{elements.find(el => el.name === elem.Element)?.emoji || ''}</div>
-                              <div style={{ fontSize: "1.1em" }}>{elem.Quantity}</div> {/* Only the required number is displayed */}
+                              <img src={elements.find(el => el.name === elem.Element)?.image || ""} 
+                                   alt={elem.Element} 
+                                   style={{ width: "40px", height: "40px" }} />
+                              <div style={{ fontSize: "1.1em" }}>{elem.Quantity}</div>
                             </div>
                           );
                         })}
