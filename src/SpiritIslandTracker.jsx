@@ -11,6 +11,7 @@ import animalImg from "./assets/animal.png";
 import moonImg from "./assets/moon.png";
 import sunImg from "./assets/sun.png";
 import energyImg from "./assets/energy.png";
+import wildcardImg from "./assets/wildcard.png"; // Add a wildcard image
 
 // Element definitions
 const elements = [
@@ -23,6 +24,7 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
+  { name: "Wildcard", image: wildcardImg }, // New wildcard element
 ];
 
 const SpiritIslandTracker = () => {
@@ -41,11 +43,7 @@ const SpiritIslandTracker = () => {
 
   const resetCounts = () => {
     setCounts((prev) => ({
-      ...prev,
-      Energy: prev.Energy, // Keep the current Energy count
-      ...elements
-        .filter((el) => el.name !== "Energy") // Reset other elements
-        .reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {}),
+      ...elements.reduce((acc, el) => ({ ...acc, [el.name]: el.name === "Energy" ? prev.Energy : 0 }), {}),
     }));
   };
 
@@ -57,31 +55,9 @@ const SpiritIslandTracker = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-        maxWidth: "800px",
-        margin: "5vh auto", // Adds margin on all sides
-        padding: "20px",
-      }}
-    >
-      <button onClick={resetCounts} style={{ marginBottom: "15px", fontSize: "1em" }}>
-        Reset Elements
-      </button>
-
-      {/* Element Tracker - Always centered */}
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "nowrap",
-          justifyContent: "center",
-          gap: "15px",
-          overflowX: "auto",
-        }}
-      >
+    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", maxWidth: "800px", margin: "5vh auto", padding: "20px" }}>
+      <button onClick={resetCounts} style={{ marginBottom: "15px", fontSize: "1em" }}>Reset Elements</button>
+      <div style={{ display: "flex", flexWrap: "nowrap", justifyContent: "center", gap: "15px", overflowX: "auto" }}>
         {elements.map((el) => (
           <div key={el.name} style={{ textAlign: "center" }}>
             <img src={el.image} alt={el.name} style={{ width: "45px", height: "45px" }} />
@@ -94,67 +70,36 @@ const SpiritIslandTracker = () => {
         ))}
       </div>
 
-      {/* Spirit Selector - Centered */}
       <div style={{ marginTop: "20px" }}>
         <select onChange={handleSpiritChange} style={{ fontSize: "1em" }}>
           <option value="">Select a Spirit</option>
-          {Object.keys(spiritsData)
-            .sort()
-            .map((spiritName) => (
-              <option key={spiritName} value={spiritName}>
-                {spiritName}
-              </option>
-            ))}
+          {Object.keys(spiritsData).sort().map((spiritName) => (
+            <option key={spiritName} value={spiritName}>{spiritName}</option>
+          ))}
         </select>
       </div>
 
-      {/* Innate Requirements - Scrollable below, arranged side by side */}
       {selectedSpirit && (
         <div style={{ marginTop: "20px", width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px" }}>
           {innateRequirements.map((innate, index) => (
-            <div
-              key={index}
-              style={{
-                margin: "5px",
-                padding: "10px",
-                border: "1px solid #ccc", // Restored border
-                borderRadius: "5px",
-                minWidth: "250px",
-                maxWidth: "300px",
-              }}
-            >
+            <div key={index} style={{ margin: "5px", padding: "10px", border: "1px solid #ccc", borderRadius: "5px", minWidth: "250px", maxWidth: "300px" }}>
               {innate.Thresholds.map((threshold, thresholdIndex) => (
-                <div
-                  key={thresholdIndex}
-                  style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}
-                >
-                  {threshold.Elements.filter((elem) => elem.Element !== "Energy").map(
-                    (elem, elemIndex) => {
-                      const hasRequirement = counts[elem.Element] >= elem.Quantity;
-                      return (
-                        <div
-                          key={elemIndex}
-                          style={{
-                            padding: "5px",
-                            margin: "5px",
-                            textAlign: "center",
-                            border: `2px solid ${hasRequirement ? "green" : "red"}`, // Restored border
-                            borderRadius: "5px",
-                            display: "flex",
-                            flexDirection: "column",
-                            alignItems: "center",
-                          }}
-                        >
-                          <img
-                            src={elements.find((el) => el.name === elem.Element)?.image}
-                            alt={elem.Element}
-                            style={{ width: "30px", height: "30px" }}
-                          />
-                          <div style={{ fontSize: "0.9em" }}>{elem.Quantity}</div>
-                        </div>
-                      );
-                    }
-                  )}
+                <div key={thresholdIndex} style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
+                  {threshold.Elements.map((elem, elemIndex) => {
+                    const hasRequirement = counts[elem.Element] + counts["Wildcard"] >= elem.Quantity;
+                    const isElement = elements.some(e => e.name === elem.Element);
+
+                    return (
+                      <div key={elemIndex} style={{ padding: "5px", margin: "5px", textAlign: "center", border: `2px solid ${hasRequirement ? "green" : "red"}`, borderRadius: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        {isElement ? (
+                          <img src={elements.find((el) => el.name === elem.Element)?.image} alt={elem.Element} style={{ width: "30px", height: "30px" }} />
+                        ) : (
+                          <span style={{ fontSize: "1.5em" }}>{elem.Element}</span>
+                        )}
+                        <div style={{ fontSize: "0.9em" }}>{elem.Quantity}</div>
+                      </div>
+                    );
+                  })}
                 </div>
               ))}
             </div>
