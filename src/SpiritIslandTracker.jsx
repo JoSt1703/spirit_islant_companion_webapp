@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import spiritsData from "./spirits.json"; // Adjust path if needed
+import spiritsData from "./spirits.json"; 
 
-// Importing element images
 import airImg from "./assets/air.png";
 import fireImg from "./assets/fire.png";
 import waterImg from "./assets/water.png";
@@ -10,10 +9,8 @@ import plantImg from "./assets/plant.png";
 import animalImg from "./assets/animal.png";
 import moonImg from "./assets/moon.png";
 import sunImg from "./assets/sun.png";
-import energyImg from "./assets/energy.png"; // Energy image added
-import presenceImg from "./assets/presence.png"; // Presence image added
+import energyImg from "./assets/energy.png"; 
 
-// Element definitions
 const elements = [
   { name: "Energy", image: energyImg },
   { name: "Sun", image: sunImg },
@@ -24,7 +21,6 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
-  { name: "Presence", image: presenceImg }
 ];
 
 const SpiritIslandTracker = () => {
@@ -54,7 +50,6 @@ const SpiritIslandTracker = () => {
       Earth: 0,
       Plant: 0,
       Animal: 0,
-      Presence: 0,
     }));
   };
 
@@ -104,7 +99,6 @@ const SpiritIslandTracker = () => {
                 <div style={{ display: "flex", flexDirection: "column" }}>
                   {innate.Thresholds.map((threshold, thresholdIndex) => (
                     <div key={thresholdIndex} style={{ marginBottom: "5px", padding: "5px", border: "1px solid #ddd", borderRadius: "5px" }}>
-                      <h4 style={{ fontSize: "0.8em" }}>Threshold {thresholdIndex + 1}</h4>
                       <div style={{ display: "flex", justifyContent: "flex-start" }}>
                         {threshold.Elements.filter(elem => elem.Element !== "Energy").map((elem, elemIndex) => {
                           const hasRequirement = counts[elem.Element] >= elem.Quantity;
@@ -119,9 +113,13 @@ const SpiritIslandTracker = () => {
                               flexDirection: 'column',
                               alignItems: 'center'
                             }}>
-                              <img src={elements.find(el => el.name === elem.Element)?.image || ""} 
-                                   alt={elem.Element} 
-                                   style={{ width: "30px", height: "30px" }} />
+                              {elements.find(el => el.name === elem.Element)?.image ? (
+                                <img src={elements.find(el => el.name === elem.Element)?.image} 
+                                     alt={elem.Element} 
+                                     style={{ width: "30px", height: "30px" }} />
+                              ) : (
+                                <div style={{ fontSize: "1.5em" }}>❓</div> // Emoji as fallback
+                              )}
                               <div style={{ fontSize: "0.8em" }}>{elem.Quantity}</div>
                             </div>
                           );
