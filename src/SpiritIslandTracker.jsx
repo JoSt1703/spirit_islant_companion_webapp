@@ -57,63 +57,32 @@ const SpiritIslandTracker = () => {
         flexDirection: "column",
         alignItems: "center",
         textAlign: "center",
-        width: "90vw", // Adds left & right margin
-        minHeight: "90vh", // Adds top & bottom margin
+        maxWidth: "800px",
+        margin: "5vh auto", // Adds margin on all sides
         padding: "20px",
-        margin: "5vh auto", // Centers vertically with margin
       }}
     >
-      <button
-        onClick={resetCounts}
-        style={{
-          marginBottom: "15px",
-          fontSize: "1em",
-          padding: "8px 16px",
-        }}
-      >
+      <button onClick={resetCounts} style={{ marginBottom: "15px", fontSize: "1em" }}>
         Reset Elements
       </button>
 
-      {/* Element Tracker - Always visible & centered */}
+      {/* Element Tracker - Always centered */}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(60px, 1fr))",
+          display: "flex",
+          flexWrap: "nowrap",
           justifyContent: "center",
-          alignItems: "center",
           gap: "15px",
-          width: "100%",
-          maxWidth: "600px",
+          overflowX: "auto",
         }}
       >
         {elements.map((el) => (
           <div key={el.name} style={{ textAlign: "center" }}>
-            <img
-              src={el.image}
-              alt={el.name}
-              style={{ width: "45px", height: "45px" }}
-            />
+            <img src={el.image} alt={el.name} style={{ width: "45px", height: "45px" }} />
             <div style={{ fontSize: "1em" }}>{counts[el.name]}</div>
             <div>
-              <button
-                onClick={() => updateCount(el.name, 1)}
-                style={{
-                  fontSize: "0.9em",
-                  padding: "4px",
-                  marginRight: "2px",
-                }}
-              >
-                +
-              </button>
-              <button
-                onClick={() => updateCount(el.name, -1)}
-                style={{
-                  fontSize: "0.9em",
-                  padding: "4px",
-                }}
-              >
-                -
-              </button>
+              <button onClick={() => updateCount(el.name, 1)}>+</button>
+              <button onClick={() => updateCount(el.name, -1)}>-</button>
             </div>
           </div>
         ))}
@@ -121,14 +90,7 @@ const SpiritIslandTracker = () => {
 
       {/* Spirit Selector - Centered */}
       <div style={{ marginTop: "20px" }}>
-        <select
-          onChange={handleSpiritChange}
-          style={{
-            fontSize: "1em",
-            padding: "6px",
-            margin: "10px 0",
-          }}
-        >
+        <select onChange={handleSpiritChange} style={{ fontSize: "1em" }}>
           <option value="">Select a Spirit</option>
           {Object.keys(spiritsData)
             .sort()
@@ -140,27 +102,25 @@ const SpiritIslandTracker = () => {
         </select>
       </div>
 
-      {/* Scrollable Innates Section */}
+      {/* Innate Requirements - Scrollable below, arranged side by side */}
       {selectedSpirit && (
-        <div style={{ marginTop: "20px", overflowY: "auto", width: "100%" }}>
+        <div style={{ marginTop: "20px", width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px" }}>
           {innateRequirements.map((innate, index) => (
             <div
               key={index}
               style={{
-                margin: "5px auto",
+                margin: "5px",
                 padding: "10px",
+                border: "1px solid #ccc", // Restored border
+                borderRadius: "5px",
                 minWidth: "250px",
-                maxWidth: "90%",
+                maxWidth: "300px",
               }}
             >
               {innate.Thresholds.map((threshold, thresholdIndex) => (
                 <div
                   key={thresholdIndex}
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: "10px",
-                  }}
+                  style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}
                 >
                   {threshold.Elements.filter((elem) => elem.Element !== "Energy").map(
                     (elem, elemIndex) => {
@@ -172,21 +132,17 @@ const SpiritIslandTracker = () => {
                             padding: "5px",
                             margin: "5px",
                             textAlign: "center",
+                            border: `2px solid ${hasRequirement ? "green" : "red"}`, // Restored border
+                            borderRadius: "5px",
                             display: "flex",
                             flexDirection: "column",
                             alignItems: "center",
                           }}
                         >
                           <img
-                            src={
-                              elements.find((el) => el.name === elem.Element)?.image
-                            }
+                            src={elements.find((el) => el.name === elem.Element)?.image}
                             alt={elem.Element}
-                            style={{
-                              width: "30px",
-                              height: "30px",
-                              opacity: hasRequirement ? "1" : "0.5",
-                            }}
+                            style={{ width: "30px", height: "30px" }}
                           />
                           <div style={{ fontSize: "0.9em" }}>{elem.Quantity}</div>
                         </div>
