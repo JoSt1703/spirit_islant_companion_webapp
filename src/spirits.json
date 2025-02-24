@@ -3113,10 +3113,6 @@
                             {
                                 "Quantity": 4,
                                 "Element": "Earth"
-                            },
-                            {
-                                "Quantity": 5,
-                                "Element": "Fear"
                             }
                         ]
                     },
@@ -3129,10 +3125,6 @@
                             {
                                 "Quantity": 5,
                                 "Element": "Earth"
-                            },
-                            {
-                                "Quantity": 7,
-                                "Element": "Fear"
                             }
                         ]
                     }
