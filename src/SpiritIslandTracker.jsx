@@ -8,6 +8,9 @@ import waterImg from "./assets/water.png";
 import earthImg from "./assets/earth.png";
 import plantImg from "./assets/plant.png";
 import animalImg from "./assets/animal.png";
+import moonImg from "./assets/moon.png";
+import sunImg from "./assets/sun.png";
+import energyImg from "./assets/energy.png";
 
 // Element definitions
 const elements = [
