@@ -11,7 +11,6 @@ import animalImg from "./assets/animal.png";
 import moonImg from "./assets/moon.png";
 import sunImg from "./assets/sun.png";
 import energyImg from "./assets/energy.png";
-import wildcardImg from "./assets/wildcard.png"; // Add a wildcard image
 
 // Element definitions
 const elements = [
@@ -24,7 +23,7 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
-  { name: "Wildcard", image: wildcardImg }, // New wildcard element
+  { name: "Wildcard", image: "🃏" }, // Use emoji instead of an image
 ];
 
 const SpiritIslandTracker = () => {
@@ -60,7 +59,11 @@ const SpiritIslandTracker = () => {
       <div style={{ display: "flex", flexWrap: "nowrap", justifyContent: "center", gap: "15px", overflowX: "auto" }}>
         {elements.map((el) => (
           <div key={el.name} style={{ textAlign: "center" }}>
-            <img src={el.image} alt={el.name} style={{ width: "45px", height: "45px" }} />
+            {el.image === "🃏" ? (
+              <span style={{ fontSize: "2em" }}>{el.image}</span>
+            ) : (
+              <img src={el.image} alt={el.name} style={{ width: "45px", height: "45px" }} />
+            )}
             <div style={{ fontSize: "1em" }}>{counts[el.name]}</div>
             <div>
               <button onClick={() => updateCount(el.name, 1)}>+</button>
