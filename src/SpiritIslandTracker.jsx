@@ -76,7 +76,7 @@ const SpiritIslandTracker = () => {
         <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
           {elements.map((el) => (
             <div key={el.name} style={{ margin: "5px", textAlign: "center", flex: "1 0 9%", maxWidth: "60px" }}>
-              <img src={el.image} alt={el.name} style={{ width: "40px", height: "40px" }} /> {/* Show image for all elements */}
+              <img src={el.image} alt={el.name} style={{ width: "40px", height: "40px" }} />
               <div style={{ fontSize: "1.1em" }}>{counts[el.name]}</div>
               <div>
                 <button onClick={() => updateCount(el.name, 1)} style={{ fontSize: "0.9em" }}>+</button>
@@ -98,15 +98,15 @@ const SpiritIslandTracker = () => {
       </div>
       {selectedSpirit && (
         <div style={{ marginTop: "20px" }}>
-          <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
+          <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             {innateRequirements.map((innate, index) => (
               <div key={index} style={{ margin: "10px", border: "1px solid #ccc", borderRadius: "5px", padding: "10px", width: "300px" }}>
                 <h3 style={{ fontSize: "1.1em" }}>{innate.Innate}</h3>
-                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                <div style={{ display: "flex", flexDirection: "column" }}>
                   {innate.Thresholds.map((threshold, thresholdIndex) => (
-                    <div key={thresholdIndex} style={{ marginRight: "10px", padding: "5px", border: "1px solid #ddd", borderRadius: "5px", width: "80px" }}>
+                    <div key={thresholdIndex} style={{ marginBottom: "10px", padding: "5px", border: "1px solid #ddd", borderRadius: "5px" }}>
                       <h4 style={{ fontSize: "1em" }}>Threshold {thresholdIndex + 1}</h4>
-                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                      <div style={{ display: "flex", justifyContent: "space-between" }}>
                         {threshold.Elements.filter(elem => elem.Element !== "Energy").map((elem, elemIndex) => {
                           const hasRequirement = counts[elem.Element] >= elem.Quantity;
                           return (
@@ -114,7 +114,7 @@ const SpiritIslandTracker = () => {
                               border: `2px solid ${hasRequirement ? 'green' : 'red'}`,
                               borderRadius: '5px',
                               padding: '5px',
-                              margin: '5px 0',
+                              margin: '5px',
                               textAlign: 'center'
                             }}>
                               <img src={elements.find(el => el.name === elem.Element)?.image || ""} 
