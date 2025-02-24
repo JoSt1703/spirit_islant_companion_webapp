@@ -23,7 +23,7 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
-  { name: "Joker", image: "🃏" }, 
+  { name: "Joker", image: "🃏" },
 ];
 
 const SpiritIslandTracker = () => {
@@ -42,7 +42,13 @@ const SpiritIslandTracker = () => {
 
   const resetCounts = () => {
     setCounts((prev) => ({
-      ...elements.reduce((acc, el) => ({ ...acc, [el.name]: el.name === "Energy" ? prev.Energy : 0 }), {}),
+      ...elements.reduce(
+        (acc, el) => ({
+          ...acc,
+          [el.name]: el.name === "Energy" ? prev.Energy : 0,
+        }),
+        {}
+      ),
     }));
   };
 
@@ -54,12 +60,39 @@ const SpiritIslandTracker = () => {
   };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", maxWidth: "800px", margin: "5vh auto", padding: "20px" }}>
-      <button onClick={resetCounts} style={{ marginBottom: "15px", fontSize: "1em" }}>Reset Elements</button>
-      <div style={{ display: "flex", flexWrap: "nowrap", justifyContent: "center", gap: "15px", overflowX: "auto" }}>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        textAlign: "center",
+        maxWidth: "800px",
+        margin: "5vh auto",
+        padding: "20px",
+      }}
+    >
+      <button
+        onClick={resetCounts}
+        style={{ marginBottom: "15px", fontSize: "1em" }}
+      >
+        Reset Elements
+      </button>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "nowrap",
+          justifyContent: "center",
+          gap: "15px",
+          overflowX: "auto",
+        }}
+      >
         {elements.map((el) => (
           <div key={el.name} style={{ textAlign: "center" }}>
-            <img src={el.image} alt={el.name} style={{ width: "45px", height: "45px" }} />
+            <img
+              src={el.image}
+              alt={el.name}
+              style={{ width: "45px", height: "45px" }}
+            />
             <div style={{ fontSize: "1em" }}>{counts[el.name]}</div>
             <div>
               <button onClick={() => updateCount(el.name, 1)}>+</button>
@@ -72,30 +105,89 @@ const SpiritIslandTracker = () => {
       <div style={{ marginTop: "20px" }}>
         <select onChange={handleSpiritChange} style={{ fontSize: "1em" }}>
           <option value="">Select a Spirit</option>
-          {Object.keys(spiritsData).sort().map((spiritName) => (
-            <option key={spiritName} value={spiritName}>{spiritName}</option>
-          ))}
+          {Object.keys(spiritsData)
+            .sort()
+            .map((spiritName) => (
+              <option key={spiritName} value={spiritName}>
+                {spiritName}
+              </option>
+            ))}
         </select>
       </div>
 
       {selectedSpirit && (
-        <div style={{ marginTop: "20px", width: "100%", display: "flex", flexWrap: "wrap", justifyContent: "center", gap: "10px" }}>
+        <div
+          style={{
+            marginTop: "20px",
+            width: "100%",
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            gap: "10px",
+          }}
+        >
           {innateRequirements.map((innate, index) => (
-            <div key={index} style={{ margin: "5px", padding: "10px", border: "1px solid #ccc", borderRadius: "5px", minWidth: "250px", maxWidth: "300px" }}>
+            <div
+              key={index}
+              style={{
+                margin: "5px",
+                padding: "10px",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                minWidth: "250px",
+                maxWidth: "300px",
+              }}
+            >
               {innate.Thresholds.map((threshold, thresholdIndex) => (
-                <div key={thresholdIndex} style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
+                <div
+                  key={thresholdIndex}
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "10px",
+                  }}
+                >
                   {threshold.Elements.map((elem, elemIndex) => {
-                    const isElement = elements.some(e => e.name === elem.Element);
-                    const hasRequirement = counts[elem.Element] >= elem.Quantity;
+                    const isDefinedElement = elements.some(
+                      (e) => e.name === elem.Element
+                    );
+                    // Use "Joker" for unknown element requirements.
+                    const elementKey = isDefinedElement ? elem.Element : "Joker";
+                    const hasRequirement =
+                      counts[elementKey] >= elem.Quantity;
 
                     return (
-                      <div key={elemIndex} style={{ padding: "5px", margin: "5px", textAlign: "center", border: `2px solid ${hasRequirement ? "green" : "red"}`, borderRadius: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-                        {isElement ? (
-                          <img src={elements.find((el) => el.name === elem.Element)?.image} alt={elem.Element} style={{ width: "30px", height: "30px" }} />
+                      <div
+                        key={elemIndex}
+                        style={{
+                          padding: "5px",
+                          margin: "5px",
+                          textAlign: "center",
+                          border: `2px solid ${
+                            hasRequirement ? "green" : "red"
+                          }`,
+                          borderRadius: "5px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                        }}
+                      >
+                        {isDefinedElement ? (
+                          <img
+                            src={
+                              elements.find(
+                                (el) => el.name === elem.Element
+                              )?.image
+                            }
+                            alt={elem.Element}
+                            style={{ width: "30px", height: "30px" }}
+                          />
                         ) : (
-                          <span style={{ fontSize: "30px" }}>🃏</span> 
+                          <span style={{ fontSize: "30px" }}>🃏</span>
                         )}
-                        <div style={{ fontSize: "0.9em" }}>{elem.Quantity}</div>
+                        <div style={{ fontSize: "0.9em" }}>
+                          {elem.Quantity}
+                        </div>
                       </div>
                     );
                   })}
