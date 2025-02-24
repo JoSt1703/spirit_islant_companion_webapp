@@ -1733,7 +1733,7 @@
     ],
     "Starlight Seeks Its Form": [
         {
-            "Innate": "AIR MOVES",
+            "Innate": "AIR MOVES, EARTH ENDURES",
             "Thresholds": [
                 {
                     "Elements": [
@@ -1742,12 +1742,7 @@
                             "Element": "Air"
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "Innate": "EARTH ENDURES",
-            "Thresholds": [
+                },
                 {
                     "Elements": [
                         {
@@ -1759,7 +1754,7 @@
             ]
         },
         {
-            "Innate": "FIRE BURNS",
+            "Innate": "FIRE BURNS, WATER SOOTHES",
             "Thresholds": [
                 {
                     "Elements": [
@@ -1768,12 +1763,7 @@
                             "Element": "Fire"
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "Innate": "WATER SOOTHES",
-            "Thresholds": [
+                },
                 {
                     "Elements": [
                         {
@@ -1785,7 +1775,7 @@
             ]
         },
         {
-            "Innate": "WOOD SEEKS GROWTH",
+            "Innate": "WOOD SEEKS GROWTH, HUMANS SEEK FREEDOM",
             "Thresholds": [
                 {
                     "Elements": [
@@ -1794,12 +1784,7 @@
                             "Element": "Plant"
                         }
                     ]
-                }
-            ]
-        },
-        {
-            "Innate": "HUMANS SEEK FREEDOM",
-            "Thresholds": [
+                },
                 {
                     "Elements": [
                         {
