@@ -89,7 +89,18 @@ const SpiritIslandTracker = () => {
         {elements.map((el) => (
           <div key={el.name} style={{ textAlign: "center" }}>
             {el.name === "Joker" ? (
-              <span style={{ fontSize: "45px" }}>{el.image}</span>
+              <div
+                style={{
+                  width: "45px",
+                  height: "45px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "45px",
+                }}
+              >
+                {el.image}
+              </div>
             ) : (
               <img
                 src={el.image}
