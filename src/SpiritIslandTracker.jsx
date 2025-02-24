@@ -40,7 +40,13 @@ const SpiritIslandTracker = () => {
   };
 
   const resetCounts = () => {
-    setCounts(elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {}));
+    setCounts((prev) => ({
+      ...prev,
+      Energy: prev.Energy, // Keep the current Energy count
+      ...elements
+        .filter((el) => el.name !== "Energy") // Reset other elements
+        .reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {}),
+    }));
   };
 
   const handleSpiritChange = (event) => {
