@@ -96,7 +96,7 @@ const SpiritIslandTracker = () => {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "45px",
+                  fontSize: "35px", // reduced size for better alignment
                 }}
               >
                 {el.image}
