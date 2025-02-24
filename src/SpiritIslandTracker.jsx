@@ -88,11 +88,15 @@ const SpiritIslandTracker = () => {
       >
         {elements.map((el) => (
           <div key={el.name} style={{ textAlign: "center" }}>
-            <img
-              src={el.image}
-              alt={el.name}
-              style={{ width: "45px", height: "45px" }}
-            />
+            {el.name === "Joker" ? (
+              <span style={{ fontSize: "45px" }}>{el.image}</span>
+            ) : (
+              <img
+                src={el.image}
+                alt={el.name}
+                style={{ width: "45px", height: "45px" }}
+              />
+            )}
             <div style={{ fontSize: "1em" }}>{counts[el.name]}</div>
             <div>
               <button onClick={() => updateCount(el.name, 1)}>+</button>
