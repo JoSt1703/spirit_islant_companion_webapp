@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import spiritsData from "./spirits.json"; 
+import spiritsData from "./spirits.json"; // Adjust path if needed
 
 // Importing element images
 import airImg from "./assets/air.png";
@@ -10,10 +10,12 @@ import plantImg from "./assets/plant.png";
 import animalImg from "./assets/animal.png";
 import moonImg from "./assets/moon.png";
 import sunImg from "./assets/sun.png";
-import presenceImg from "./assets/presence.svg"; 
+import energyImg from "./assets/energy.png"; // Energy image added
+import presenceImg from "./assets/presence.png"; // Presence image added
+
 // Element definitions
 const elements = [
-  { name: "Energy", emoji: "⚡" }, 
+  { name: "Energy", image: energyImg }, // Using energy image
   { name: "Sun", image: sunImg },
   { name: "Moon", image: moonImg },
   { name: "Fire", image: fireImg },
@@ -22,7 +24,7 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
-  { name: "Presence", image: presenceImg } 
+  { name: "Presence", image: presenceImg } // Using presence image
 ];
 
 const SpiritIslandTracker = () => {
@@ -63,11 +65,7 @@ const SpiritIslandTracker = () => {
         <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
           {elements.map((el) => (
             <div key={el.name} style={{ margin: "5px", textAlign: "center", flex: "1 0 9%", maxWidth: "60px" }}>
-              {el.image ? ( // Use image if available
-                <img src={el.image} alt={el.name} style={{ width: "40px", height: "40px" }} />
-              ) : ( // Otherwise, show the emoji
-                <div style={{ fontSize: "1.5em" }}>{el.emoji}</div>
-              )}
+              <img src={el.image} alt={el.name} style={{ width: "40px", height: "40px" }} /> {/* Show image for all elements */}
               <div style={{ fontSize: "1.1em" }}>{counts[el.name]}</div>
               <div>
                 <button onClick={() => updateCount(el.name, 1)} style={{ fontSize: "0.9em" }}>+</button>
