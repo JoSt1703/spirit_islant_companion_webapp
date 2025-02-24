@@ -23,12 +23,12 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
-  { name: "X", image: "🃏" },
+  { name: "X", image: "🃏" }, // Regular element
 ];
 
 const SpiritIslandTracker = () => {
   const [counts, setCounts] = useState(
-    elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), { Wildcard: 0 })
+    elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {})
   );
   const [selectedSpirit, setSelectedSpirit] = useState(null);
   const [innateRequirements, setInnateRequirements] = useState([]);
@@ -43,7 +43,6 @@ const SpiritIslandTracker = () => {
   const resetCounts = () => {
     setCounts((prev) => ({
       ...elements.reduce((acc, el) => ({ ...acc, [el.name]: el.name === "Energy" ? prev.Energy : 0 }), {}),
-      Wildcard: 0,
     }));
   };
 
@@ -68,14 +67,6 @@ const SpiritIslandTracker = () => {
             </div>
           </div>
         ))}
-        <div key="Wildcard" style={{ textAlign: "center" }}>
-          <span style={{ fontSize: "2em" }}>🃏</span>
-          <div style={{ fontSize: "1em" }}>{counts["Wildcard"]}</div>
-          <div>
-            <button onClick={() => updateCount("Wildcard", 1)}>+</button>
-            <button onClick={() => updateCount("Wildcard", -1)}>-</button>
-          </div>
-        </div>
       </div>
 
       <div style={{ marginTop: "20px" }}>
@@ -95,10 +86,9 @@ const SpiritIslandTracker = () => {
                 <div key={thresholdIndex} style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
                   {threshold.Elements.map((elem, elemIndex) => {
                     const isElement = elements.some(e => e.name === elem.Element);
-                    // Check if the element is "X" (acting as a wildcard)
-                    const hasRequirement = elem.Element === "X"
-                      ? Object.keys(counts).reduce((sum, key) => sum + counts[key], 0) >= elem.Quantity
-                      : counts[elem.Element] >= elem.Quantity;
+                    
+                    // Check if the requirement is met for this element
+                    const hasRequirement = counts[elem.Element] >= elem.Quantity;
 
                     return (
                       <div key={elemIndex} style={{ padding: "5px", margin: "5px", textAlign: "center", border: `2px solid ${hasRequirement ? "green" : "red"}`, borderRadius: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
