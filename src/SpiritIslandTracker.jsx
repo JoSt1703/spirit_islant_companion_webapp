@@ -40,9 +40,7 @@ const SpiritIslandTracker = () => {
   };
 
   const resetCounts = () => {
-    setCounts(
-      elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {})
-    );
+    setCounts(elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {}));
   };
 
   const handleSpiritChange = (event) => {
@@ -55,164 +53,157 @@ const SpiritIslandTracker = () => {
   return (
     <div
       style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        textAlign: "center",
+        width: "80%",
+        maxWidth: "600px",
       }}
     >
+      <button
+        onClick={resetCounts}
+        style={{ marginBottom: "10px", fontSize: "0.8em" }}
+      >
+        Reset Elements
+      </button>
+
       <div
         style={{
-          textAlign: "center",
-          margin: "10px",
+          display: "flex",
+          justifyContent: "center",
+          flexWrap: "nowrap",
           overflowX: "auto",
-          maxWidth: "80%",
         }}
       >
-        <button
-          onClick={resetCounts}
-          style={{ marginBottom: "10px", fontSize: "0.8em" }}
-        >
-          Reset Elements
-        </button>
+        {elements.map((el) => (
+          <div
+            key={el.name}
+            style={{
+              margin: "5px",
+              textAlign: "center",
+              flex: "0 0 auto",
+              minWidth: "50px",
+            }}
+          >
+            <img
+              src={el.image}
+              alt={el.name}
+              style={{ width: "30px", height: "30px" }}
+            />
+            <div style={{ fontSize: "0.9em" }}>{counts[el.name]}</div>
+            <div>
+              <button
+                onClick={() => updateCount(el.name, 1)}
+                style={{ fontSize: "0.7em" }}
+              >
+                +
+              </button>
+              <button
+                onClick={() => updateCount(el.name, -1)}
+                style={{ fontSize: "0.7em" }}
+              >
+                -
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginTop: "10px" }}>
+        <select onChange={handleSpiritChange} style={{ fontSize: "0.8em" }}>
+          <option value="">Select a Spirit</option>
+          {Object.keys(spiritsData)
+            .sort()
+            .map((spiritName) => (
+              <option key={spiritName} value={spiritName}>
+                {spiritName}
+              </option>
+            ))}
+        </select>
+      </div>
+
+      {selectedSpirit && (
         <div
           style={{
+            marginTop: "10px",
             display: "flex",
             justifyContent: "center",
             flexWrap: "wrap",
           }}
         >
-          {elements.map((el) => (
+          {innateRequirements.map((innate, index) => (
             <div
-              key={el.name}
+              key={index}
               style={{
                 margin: "5px",
-                textAlign: "center",
-                flex: "1 0 9%",
-                maxWidth: "50px",
+                border: "1px solid #ccc",
+                borderRadius: "5px",
+                padding: "5px",
+                minWidth: "200px",
               }}
             >
-              <img
-                src={el.image}
-                alt={el.name}
-                style={{ width: "30px", height: "30px" }}
-              />
-              <div style={{ fontSize: "0.9em" }}>{counts[el.name]}</div>
-              <div>
-                <button
-                  onClick={() => updateCount(el.name, 1)}
-                  style={{ fontSize: "0.7em" }}
-                >
-                  +
-                </button>
-                <button
-                  onClick={() => updateCount(el.name, -1)}
-                  style={{ fontSize: "0.7em" }}
-                >
-                  -
-                </button>
+              <div style={{ display: "flex", flexDirection: "column" }}>
+                {innate.Thresholds.map((threshold, thresholdIndex) => (
+                  <div
+                    key={thresholdIndex}
+                    style={{
+                      marginBottom: "5px",
+                      padding: "5px",
+                      border: "none", // Invisible border
+                      borderRadius: "5px",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {threshold.Elements.filter(
+                      (elem) => elem.Element !== "Energy"
+                    ).map((elem, elemIndex) => {
+                      const hasRequirement =
+                        counts[elem.Element] >= elem.Quantity;
+                      return (
+                        <div
+                          key={elemIndex}
+                          style={{
+                            border: `2px solid ${
+                              hasRequirement ? "green" : "red"
+                            }`,
+                            borderRadius: "5px",
+                            padding: "5px",
+                            margin: "2px",
+                            textAlign: "center",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                          }}
+                        >
+                          {elements.find((el) => el.name === elem.Element)
+                            ?.image ? (
+                            <img
+                              src={
+                                elements.find((el) => el.name === elem.Element)
+                                  ?.image
+                              }
+                              alt={elem.Element}
+                              style={{ width: "30px", height: "30px" }}
+                            />
+                          ) : (
+                            <div style={{ fontSize: "1.5em" }}>❓</div> // Emoji fallback
+                          )}
+                          <div style={{ fontSize: "0.8em" }}>
+                            {elem.Quantity}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
             </div>
           ))}
         </div>
-        <div style={{ marginTop: "10px" }}>
-          <select
-            onChange={handleSpiritChange}
-            style={{ fontSize: "0.8em" }}
-          >
-            <option value="">Select a Spirit</option>
-            {Object.keys(spiritsData)
-              .sort()
-              .map((spiritName) => (
-                <option key={spiritName} value={spiritName}>
-                  {spiritName}
-                </option>
-              ))}
-          </select>
-        </div>
-        {selectedSpirit && (
-          <div
-            style={{
-              marginTop: "10px",
-              display: "flex",
-              justifyContent: "center",
-              flexWrap: "wrap",
-            }}
-          >
-            {innateRequirements.map((innate, index) => (
-              <div
-                key={index}
-                style={{
-                  margin: "5px",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  padding: "5px",
-                  minWidth: "200px",
-                }}
-              >
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  {innate.Thresholds.map((threshold, thresholdIndex) => (
-                    <div
-                      key={thresholdIndex}
-                      style={{
-                        marginBottom: "5px",
-                        padding: "5px",
-                        border: "none", // Border removed
-                        borderRadius: "5px",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {threshold.Elements.filter(
-                        (elem) => elem.Element !== "Energy"
-                      ).map((elem, elemIndex) => {
-                        const hasRequirement =
-                          counts[elem.Element] >= elem.Quantity;
-                        return (
-                          <div
-                            key={elemIndex}
-                            style={{
-                              border: `2px solid ${
-                                hasRequirement ? "green" : "red"
-                              }`,
-                              borderRadius: "5px",
-                              padding: "5px",
-                              margin: "2px",
-                              textAlign: "center",
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "center",
-                            }}
-                          >
-                            {elements.find(
-                              (el) => el.name === elem.Element
-                            )?.image ? (
-                              <img
-                                src={
-                                  elements.find(
-                                    (el) => el.name === elem.Element
-                                  )?.image
-                                }
-                                alt={elem.Element}
-                                style={{ width: "30px", height: "30px" }}
-                              />
-                            ) : (
-                              <div style={{ fontSize: "1.5em" }}>❓</div> // Emoji fallback
-                            )}
-                            <div style={{ fontSize: "0.8em" }}>
-                              {elem.Quantity}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
+      )}
     </div>
   );
 };
