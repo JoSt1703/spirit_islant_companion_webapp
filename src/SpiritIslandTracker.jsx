@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import spiritsData from "./spirits.json"; 
+
+// Importing element images
 import airImg from "./assets/air.png";
 import fireImg from "./assets/fire.png";
 import waterImg from "./assets/water.png";
@@ -8,9 +10,10 @@ import plantImg from "./assets/plant.png";
 import animalImg from "./assets/animal.png";
 import moonImg from "./assets/moon.png";
 import sunImg from "./assets/sun.png";
-
+import presenceImg from "./assets/presence.svg"; 
+// Element definitions
 const elements = [
-  { name: "Energy", emoji: "⚡" },
+  { name: "Energy", emoji: "⚡" }, 
   { name: "Sun", image: sunImg },
   { name: "Moon", image: moonImg },
   { name: "Fire", image: fireImg },
@@ -19,6 +22,7 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
+  { name: "Presence", image: presenceImg } 
 ];
 
 const SpiritIslandTracker = () => {
@@ -59,7 +63,11 @@ const SpiritIslandTracker = () => {
         <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
           {elements.map((el) => (
             <div key={el.name} style={{ margin: "5px", textAlign: "center", flex: "1 0 9%", maxWidth: "60px" }}>
-              <img src={el.image} alt={el.name} style={{ width: "40px", height: "40px" }} />
+              {el.image ? ( // Use image if available
+                <img src={el.image} alt={el.name} style={{ width: "40px", height: "40px" }} />
+              ) : ( // Otherwise, show the emoji
+                <div style={{ fontSize: "1.5em" }}>{el.emoji}</div>
+              )}
               <div style={{ fontSize: "1.1em" }}>{counts[el.name]}</div>
               <div>
                 <button onClick={() => updateCount(el.name, 1)} style={{ fontSize: "0.9em" }}>+</button>
@@ -92,7 +100,7 @@ const SpiritIslandTracker = () => {
                     {innate.Thresholds.map((threshold, thresholdIndex) => (
                       <div key={thresholdIndex} style={{ marginBottom: "5px", padding: "5px", border: "1px solid #ddd", borderRadius: "5px", width: "100%" }}>
                         <h4 style={{ fontSize: "1em" }}>Threshold {thresholdIndex + 1}</h4>
-                        {threshold.Elements.map((elem, elemIndex) => {
+                        {threshold.Elements.filter(elem => elem.Element !== "Energy").map((elem, elemIndex) => { 
                           const hasRequirement = counts[elem.Element] >= elem.Quantity;
                           return (
                             <div key={elemIndex} style={{
