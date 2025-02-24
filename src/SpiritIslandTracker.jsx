@@ -99,15 +99,15 @@ const SpiritIslandTracker = () => {
       {selectedSpirit && (
         <div style={{ marginTop: "20px" }}>
           <div style={{ display: "flex", justifyContent: "center", flexWrap: "wrap" }}>
-            {innateRequirements.length > 0 ? (
-              innateRequirements.map((innate, index) => (
-                <div key={index} style={{ margin: "10px", border: "1px solid #ccc", borderRadius: "5px", padding: "10px", width: "300px" }}>
-                  <h3 style={{ fontSize: "1.1em" }}>{innate.Innate}</h3>
-                  <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-                    {innate.Thresholds.map((threshold, thresholdIndex) => (
-                      <div key={thresholdIndex} style={{ marginBottom: "5px", padding: "5px", border: "1px solid #ddd", borderRadius: "5px", width: "100%" }}>
-                        <h4 style={{ fontSize: "1em" }}>Threshold {thresholdIndex + 1}</h4>
-                        {threshold.Elements.filter(elem => elem.Element !== "Energy").map((elem, elemIndex) => { // 🚨 Energy removed from display
+            {innateRequirements.map((innate, index) => (
+              <div key={index} style={{ margin: "10px", border: "1px solid #ccc", borderRadius: "5px", padding: "10px", width: "300px" }}>
+                <h3 style={{ fontSize: "1.1em" }}>{innate.Innate}</h3>
+                <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+                  {innate.Thresholds.map((threshold, thresholdIndex) => (
+                    <div key={thresholdIndex} style={{ marginRight: "10px", padding: "5px", border: "1px solid #ddd", borderRadius: "5px", width: "80px" }}>
+                      <h4 style={{ fontSize: "1em" }}>Threshold {thresholdIndex + 1}</h4>
+                      <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                        {threshold.Elements.filter(elem => elem.Element !== "Energy").map((elem, elemIndex) => {
                           const hasRequirement = counts[elem.Element] >= elem.Quantity;
                           return (
                             <div key={elemIndex} style={{
@@ -125,13 +125,11 @@ const SpiritIslandTracker = () => {
                           );
                         })}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  ))}
                 </div>
-              ))
-            ) : (
-              <p>No innate requirements available.</p>
-            )}
+              </div>
+            ))}
           </div>
         </div>
       )}
