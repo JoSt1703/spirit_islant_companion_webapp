@@ -8,9 +8,6 @@ import waterImg from "./assets/water.png";
 import earthImg from "./assets/earth.png";
 import plantImg from "./assets/plant.png";
 import animalImg from "./assets/animal.png";
-import moonImg from "./assets/moon.png";
-import sunImg from "./assets/sun.png";
-import energyImg from "./assets/energy.png";
 
 // Element definitions
 const elements = [
@@ -23,7 +20,7 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
-  { name: "X", image: "🃏" }, // Regular element
+  { name: "Joker", image: "🃏" }, 
 ];
 
 const SpiritIslandTracker = () => {
@@ -86,8 +83,6 @@ const SpiritIslandTracker = () => {
                 <div key={thresholdIndex} style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
                   {threshold.Elements.map((elem, elemIndex) => {
                     const isElement = elements.some(e => e.name === elem.Element);
-                    
-                    // Check if the requirement is met for this element
                     const hasRequirement = counts[elem.Element] >= elem.Quantity;
 
                     return (
@@ -95,7 +90,7 @@ const SpiritIslandTracker = () => {
                         {isElement ? (
                           <img src={elements.find((el) => el.name === elem.Element)?.image} alt={elem.Element} style={{ width: "30px", height: "30px" }} />
                         ) : (
-                          <span style={{ fontSize: "1.5em" }}>🃏</span>
+                          <span style={{ fontSize: "30px" }}>🃏</span> 
                         )}
                         <div style={{ fontSize: "0.9em" }}>{elem.Quantity}</div>
                       </div>
