@@ -23,6 +23,7 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
+  { name: "X", image: "🃏" },
 ];
 
 const SpiritIslandTracker = () => {
@@ -94,7 +95,11 @@ const SpiritIslandTracker = () => {
                 <div key={thresholdIndex} style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
                   {threshold.Elements.map((elem, elemIndex) => {
                     const isElement = elements.some(e => e.name === elem.Element);
-                    const hasRequirement = counts[elem.Element] + (isElement ? 0 : counts["Wildcard"]) >= elem.Quantity;
+                    // Check if the element is "X" (acting as a wildcard)
+                    const hasRequirement = elem.Element === "X"
+                      ? Object.keys(counts).reduce((sum, key) => sum + counts[key], 0) >= elem.Quantity
+                      : counts[elem.Element] >= elem.Quantity;
+
                     return (
                       <div key={elemIndex} style={{ padding: "5px", margin: "5px", textAlign: "center", border: `2px solid ${hasRequirement ? "green" : "red"}`, borderRadius: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
                         {isElement ? (
