@@ -23,12 +23,11 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
-  { name: "Wildcard", image: "🃏" }, // Use emoji instead of an image
 ];
 
 const SpiritIslandTracker = () => {
   const [counts, setCounts] = useState(
-    elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {})
+    elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), { Wildcard: 0 })
   );
   const [selectedSpirit, setSelectedSpirit] = useState(null);
   const [innateRequirements, setInnateRequirements] = useState([]);
@@ -43,6 +42,7 @@ const SpiritIslandTracker = () => {
   const resetCounts = () => {
     setCounts((prev) => ({
       ...elements.reduce((acc, el) => ({ ...acc, [el.name]: el.name === "Energy" ? prev.Energy : 0 }), {}),
+      Wildcard: 0,
     }));
   };
 
@@ -59,11 +59,7 @@ const SpiritIslandTracker = () => {
       <div style={{ display: "flex", flexWrap: "nowrap", justifyContent: "center", gap: "15px", overflowX: "auto" }}>
         {elements.map((el) => (
           <div key={el.name} style={{ textAlign: "center" }}>
-            {el.image === "🃏" ? (
-              <span style={{ fontSize: "2em" }}>{el.image}</span>
-            ) : (
-              <img src={el.image} alt={el.name} style={{ width: "45px", height: "45px" }} />
-            )}
+            <img src={el.image} alt={el.name} style={{ width: "45px", height: "45px" }} />
             <div style={{ fontSize: "1em" }}>{counts[el.name]}</div>
             <div>
               <button onClick={() => updateCount(el.name, 1)}>+</button>
@@ -71,6 +67,14 @@ const SpiritIslandTracker = () => {
             </div>
           </div>
         ))}
+        <div key="Wildcard" style={{ textAlign: "center" }}>
+          <span style={{ fontSize: "2em" }}>🃏</span>
+          <div style={{ fontSize: "1em" }}>{counts["Wildcard"]}</div>
+          <div>
+            <button onClick={() => updateCount("Wildcard", 1)}>+</button>
+            <button onClick={() => updateCount("Wildcard", -1)}>-</button>
+          </div>
+        </div>
       </div>
 
       <div style={{ marginTop: "20px" }}>
@@ -89,15 +93,14 @@ const SpiritIslandTracker = () => {
               {innate.Thresholds.map((threshold, thresholdIndex) => (
                 <div key={thresholdIndex} style={{ display: "flex", justifyContent: "center", marginBottom: "10px" }}>
                   {threshold.Elements.map((elem, elemIndex) => {
-                    const hasRequirement = counts[elem.Element] + counts["Wildcard"] >= elem.Quantity;
                     const isElement = elements.some(e => e.name === elem.Element);
-
+                    const hasRequirement = counts[elem.Element] + (isElement ? 0 : counts["Wildcard"]) >= elem.Quantity;
                     return (
                       <div key={elemIndex} style={{ padding: "5px", margin: "5px", textAlign: "center", border: `2px solid ${hasRequirement ? "green" : "red"}`, borderRadius: "5px", display: "flex", flexDirection: "column", alignItems: "center" }}>
                         {isElement ? (
                           <img src={elements.find((el) => el.name === elem.Element)?.image} alt={elem.Element} style={{ width: "30px", height: "30px" }} />
                         ) : (
-                          <span style={{ fontSize: "1.5em" }}>{elem.Element}</span>
+                          <span style={{ fontSize: "1.5em" }}>🃏</span>
                         )}
                         <div style={{ fontSize: "0.9em" }}>{elem.Quantity}</div>
                       </div>
