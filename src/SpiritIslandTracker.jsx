@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import spiritsData from "./spirits.json"; // Adjust path if needed
 
 // Importing element images
@@ -14,7 +14,6 @@ import energyImg from "./assets/energy.png";
 
 // Element definitions
 const elements = [
-  { name: "Energy", image: energyImg },
   { name: "Sun", image: sunImg },
   { name: "Moon", image: moonImg },
   { name: "Fire", image: fireImg },
@@ -23,20 +22,45 @@ const elements = [
   { name: "Earth", image: earthImg },
   { name: "Plant", image: plantImg },
   { name: "Animal", image: animalImg },
+  { name: "Energy", image: energyImg },
   { name: "Joker", image: "🃏" },
 ];
 
+const SpiritContext = createContext();
+
 const SpiritIslandTracker = () => {
+  const [spiritCount, setSpiritCount] = useState(1);
+
+  return (
+    <div className="spirits">
+      <SpiritTracker />
+      <SpiritTracker />
+      <SpiritTracker />
+      <SpiritTracker />
+      <SpiritTracker />
+      <SpiritTracker />
+    </div>
+  )
+}
+
+const SpiritTracker = () => {
   const [counts, setCounts] = useState(
-    elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {})
+    // elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {})
+    elements.reduce((acc, el) => ({ ...acc, [el.name]: {temp: 0, persist: 0} }), {})
   );
   const [selectedSpirit, setSelectedSpirit] = useState(null);
   const [innateRequirements, setInnateRequirements] = useState([]);
 
-  const updateCount = (element, delta) => {
+  const updateCount = (element, delta, type) => {
+    const otherType = type == 'temp' ? 'persist' : 'temp';
+    const maxCount = element === "Energy" ? 20 : 9;
+
     setCounts((prev) => ({
       ...prev,
-      [element]: Math.max(0, prev[element] + delta),
+      [element]: {
+        [type]: Math.min(Math.max(0, prev[element][type] + delta), (maxCount - prev[element][otherType])),
+        [otherType]: prev[element][otherType]
+      }
     }));
   };
 
@@ -45,7 +69,10 @@ const SpiritIslandTracker = () => {
       ...elements.reduce(
         (acc, el) => ({
           ...acc,
-          [el.name]: el.name === "Energy" ? prev.Energy : 0,
+          [el.name]: {
+            temp: el.name === "Energy" ? prev.Energy.temp : 0,
+            persist: prev[el.name].persist
+          },
         }),
         {}
       ),
@@ -60,160 +87,149 @@ const SpiritIslandTracker = () => {
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        textAlign: "center",
-        maxWidth: "800px",
-        margin: "5vh auto",
-        padding: "20px",
-      }}
-    >
-      <button
-        onClick={resetCounts}
-        style={{ marginBottom: "15px", fontSize: "1em" }}
-      >
-        Reset Elements
-      </button>
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "nowrap",
-          justifyContent: "center",
-          gap: "15px",
-          overflowX: "auto",
-        }}
-      >
+    <div className="spirit">
+      <SpiritContext.Provider value={{resetCounts, handleSpiritChange}}>
+        <div className="global-controls">
+          <SpiritSelector/>
+          <ResetButton />
+        </div>
+      </SpiritContext.Provider>
+      <div className="elements">
         {elements.map((el) => (
-          <div key={el.name} style={{ textAlign: "center" }}>
-            {el.name === "Joker" ? (
-              <div
-                style={{
-                  width: "45px",
-                  height: "45px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: "35px", // reduced size for better alignment
-                }}
-              >
-                {el.image}
-              </div>
-            ) : (
-              <img
-                src={el.image}
-                alt={el.name}
-                style={{ width: "45px", height: "45px" }}
-              />
-            )}
-            <div style={{ fontSize: "1em" }}>{counts[el.name]}</div>
-            <div>
-              <button onClick={() => updateCount(el.name, 1)}>+</button>
-              <button onClick={() => updateCount(el.name, -1)}>-</button>
-            </div>
-          </div>
+          <SpiritContext.Provider value={{el, counts, updateCount}} key={el.name}>
+            <Element />
+          </SpiritContext.Provider>
         ))}
       </div>
-
-      <div style={{ marginTop: "20px" }}>
-        <select onChange={handleSpiritChange} style={{ fontSize: "1em" }}>
-          <option value="">Select a Spirit</option>
-          {Object.keys(spiritsData)
-            .sort()
-            .map((spiritName) => (
-              <option key={spiritName} value={spiritName}>
-                {spiritName}
-              </option>
-            ))}
-        </select>
-      </div>
-
       {selectedSpirit && (
-        <div
-          style={{
-            marginTop: "20px",
-            width: "100%",
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
-            gap: "10px",
-          }}
-        >
+        <div className="innate-requirements">
           {innateRequirements.map((innate, index) => (
-            <div
-              key={index}
-              style={{
-                margin: "5px",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                minWidth: "250px",
-                maxWidth: "300px",
-              }}
-            >
-              {innate.Thresholds.map((threshold, thresholdIndex) => (
-                <div
-                  key={thresholdIndex}
-                  style={{
-                    display: "flex",
-                    justifyContent: "center",
-                    marginBottom: "10px",
-                  }}
-                >
-                  {threshold.Elements.map((elem, elemIndex) => {
-                    const isDefinedElement = elements.some(
-                      (e) => e.name === elem.Element
-                    );
-                    // Use "Joker" for unknown element requirements.
-                    const elementKey = isDefinedElement ? elem.Element : "Joker";
-                    const hasRequirement =
-                      counts[elementKey] >= elem.Quantity;
-
-                    return (
-                      <div
-                        key={elemIndex}
-                        style={{
-                          padding: "5px",
-                          margin: "5px",
-                          textAlign: "center",
-                          border: `2px solid ${
-                            hasRequirement ? "green" : "red"
-                          }`,
-                          borderRadius: "5px",
-                          display: "flex",
-                          flexDirection: "column",
-                          alignItems: "center",
-                        }}
-                      >
-                        {isDefinedElement ? (
-                          <img
-                            src={
-                              elements.find(
-                                (el) => el.name === elem.Element
-                              )?.image
-                            }
-                            alt={elem.Element}
-                            style={{ width: "30px", height: "30px" }}
-                          />
-                        ) : (
-                          <span style={{ fontSize: "30px" }}>🃏</span>
-                        )}
-                        <div style={{ fontSize: "0.9em" }}>
-                          {elem.Quantity}
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
-            </div>
+            <Innate innate={innate} counts={counts} index={index} key={index} />
           ))}
         </div>
       )}
     </div>
   );
 };
+
+const Innate = ({ innate, counts, index }) => {
+  return (
+    <div
+      className="innate-power"
+    >
+      {innate.Thresholds.map((threshold, thresholdIndex) => {
+        console.log(innate.Thresholds);
+        return (
+          <div
+            className="threshold-line"
+            key={thresholdIndex}
+          >
+            {threshold.Elements.map((elem, elemIndex) => {
+              const isDefinedElement = elements.some(
+                (e) => e.name === elem.Element
+              );
+              // Use "Joker" for unknown element requirements.
+              const elementKey = isDefinedElement ? elem.Element : "Joker";
+              const elementTotal = counts[elementKey].temp + counts[elementKey].persist
+              const requirementPercentage = (elementTotal / elem.Quantity) * 100;
+
+              return (
+                <div
+                  className={`threshold-element ${requirementPercentage >= 100 ? "met" : "unmet"} ${elem.Element.toLowerCase()}`}
+                  style={{"--percentage": `${requirementPercentage}%`}}
+                  key={elemIndex}
+                >
+                  {isDefinedElement ? (
+                    <img
+                      src={
+                        elements.find(
+                          (el) => el.name === elem.Element
+                        )?.image
+                      }
+                      alt={elem.Element}
+                    />
+                  ) : (
+                    <span style={{ fontSize: "30px" }}>🃏</span>
+                  )}
+                  <div style={{ fontSize: "0.9em" }}>
+                    {elem.Quantity}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+const SpiritSelector = () => {
+  const {handleSpiritChange} = useContext(SpiritContext);
+
+  return (
+    <div className="spirit-selector">
+      <select onChange={handleSpiritChange} style={{ fontSize: "1em" }}>
+        <option value="">Select a Spirit</option>
+        {Object.keys(spiritsData)
+          .sort()
+          .map((spiritName) => (
+            <option key={spiritName} value={spiritName}>
+              {spiritName}
+            </option>
+          ))}
+      </select>
+    </div>
+  )
+}
+
+const ResetButton = () => {
+  const {resetCounts} = useContext(SpiritContext);
+
+  return (
+    <button
+      onClick={resetCounts}
+      className="reset-button"
+    >
+      Reset Elements
+    </button>
+  )
+}
+
+const Element = () => {
+  const {el, counts, updateCount} = useContext(SpiritContext);
+
+  return (
+    <div className={`element ${el.name.toLowerCase()}`} key={el.name} style={{ textAlign: "center" }}>
+      <div className="element-info">
+        {el.name === "Joker" ? (
+          <div className="joker">
+            {el.image}
+          </div>
+        ) : (
+          <img
+            src={el.image}
+            alt={el.name}
+          />
+        )}
+        {(el.name !== "Joker" && el.name !== "Energy") && <div className="persist-count">{counts[el.name].persist}</div>}
+        <div className="total-count">{counts[el.name].temp + counts[el.name].persist}</div>
+      </div>
+      <Incrementor type="temp" />
+      {((el.name !== "Joker" && el.name !== "Energy") ) && <Incrementor type="persist" />}
+    </div>
+  )
+}
+
+const Incrementor = ({ type }) => {
+  const {el, updateCount} = useContext(SpiritContext);
+
+  return (
+    <div className={`incrementors ${type}`}>
+      <button onClick={() => updateCount(el.name, 1, type)}>+</button>
+      <button onClick={() => updateCount(el.name, -1, type)}>-</button>
+    </div>
+  )
+}
 
 export default SpiritIslandTracker;
