@@ -252,6 +252,7 @@ button:focus-visible {
       color: #fff;
       border: 0;
       background-color: rgb(var(--element-color));
+      border-radius: 50%;
     }
   }
 }
@@ -262,35 +263,76 @@ button:focus-visible {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
   gap: 10px;
 
   .innate-power {
     margin: 5px;
     padding: 10px;
+    min-width: 25%;
     border: 1px solid rgb(204, 204, 204);
+    background-color: #242424;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+
+    h6 {
+      margin: 0;
+      color: #fff;
+    }
   }
 
   .threshold-line {
+    --border-width: 4px;
+    position: relative;
     display: flex;
     justify-content: center;
     gap: 5px;
-    border: 2px solid red;
+    border: var(--border-width) solid rgb(187, 0, 0);
+    border-left-color: rgb(0, 160, 99);
     border-radius: 5px;
     padding: 5px;
+
+    &::after,
+    &::before {
+      content: '';
+      position: absolute;
+      left: -3px;
+      width: var(--line-percentage);
+      height: var(--border-width);
+      max-height: 100%;
+      background-color: rgb(0, 160, 99);
+      z-index: 0;
+    }
+
+    &::before {top: calc(var(--border-width) * -1);}
+    &::after {bottom: calc(var(--border-width) * -1);}
+
+    &.empty {
+      border-left-color: rgb(187, 0, 0);
+    }
+
+    &.met {
+      border: var(--border-width) solid rgb(0, 160, 99);
+      box-shadow: 0 0 5px rgba(0, 250, 154, 0.6);
+
+      &::after {
+        background-color: rgba(0, 160, 99, .1);
+      }
+    }
 
     .threshold-element {
       padding: 5px;
       text-align: center;
+      background-color: #242424;
       border: 2px solid rgb(var(--element-color));;
       border-radius: 5px;
       display: flex;
       gap: 3px;
       align-items: center;
       position: relative;
+      z-index: 2;
 
       &.met {
         /* border: 2px solid rgb(var(--element-color)); */
@@ -314,19 +356,18 @@ button:focus-visible {
         height: var(--percentage);
         max-height: 100%;
         background-color: rgba(var(--element-color), .4);
-        z-index: -1;
+        z-index: 0;
       }
 
       img {
         width: 30px;
         height: 30px;
         filter: grayscale(1);
+        z-index: 1;
       }
 
-      span {
-        font-size: 30px;
-        height: 30px;
-        width: 30px;
+      &> div {
+        color: #fff;
       }
     }
   }

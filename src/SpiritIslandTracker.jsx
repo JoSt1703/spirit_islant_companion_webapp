@@ -113,33 +113,51 @@ const SpiritTracker = () => {
 };
 
 const Innate = ({ innate, counts, index }) => {
+  console.log('all Thresholds',innate.Thresholds, 'counts', counts);
+
+  function isThresholdADefinedElement(elem) {
+    return elements.some(
+      (e) => e.name === elem.Element
+    );
+  }
+  
   return (
     <div
       className="innate-power"
     >
+      <h6>{innate.Innate}</h6>
       {innate.Thresholds.map((threshold, thresholdIndex) => {
-        console.log(innate.Thresholds);
+
+        const [totalThreshold, totalApplicableElements] = threshold.Elements.reduce((totalElements, thresholdElement) => {
+          const elementKey = isThresholdADefinedElement(thresholdElement) ? thresholdElement.Element : "Joker";
+          const elementTotal = counts[elementKey].temp + counts[elementKey].persist;
+          return [
+            totalElements[0] + thresholdElement.Quantity,
+            totalElements[1] + Math.min(elementTotal, thresholdElement.Quantity)
+          ]
+        }, [0, 0]);
+
+        const linePercentage = (totalApplicableElements / totalThreshold) * 100;
+
         return (
           <div
-            className="threshold-line"
+            className={`threshold-line ${linePercentage >= 100 ? "met" : "unmet"} ${linePercentage === 0 && "empty"}`}
+            style={{"--line-percentage": `${linePercentage}%`}}
             key={thresholdIndex}
           >
             {threshold.Elements.map((elem, elemIndex) => {
-              const isDefinedElement = elements.some(
-                (e) => e.name === elem.Element
-              );
               // Use "Joker" for unknown element requirements.
-              const elementKey = isDefinedElement ? elem.Element : "Joker";
+              const elementKey = isThresholdADefinedElement(elem) ? elem.Element : "Joker";
               const elementTotal = counts[elementKey].temp + counts[elementKey].persist
               const requirementPercentage = (elementTotal / elem.Quantity) * 100;
 
               return (
                 <div
-                  className={`threshold-element ${requirementPercentage >= 100 ? "met" : "unmet"} ${elem.Element.toLowerCase()}`}
+                  className={`threshold-element ${requirementPercentage >= 100 ? "met" : "unmet"} ${elementKey.toLowerCase()}`}
                   style={{"--percentage": `${requirementPercentage}%`}}
                   key={elemIndex}
                 >
-                  {isDefinedElement ? (
+                  {isThresholdADefinedElement(elem) ? (
                     <img
                       src={
                         elements.find(
@@ -166,6 +184,7 @@ const Innate = ({ innate, counts, index }) => {
 
 const SpiritSelector = () => {
   const {handleSpiritChange} = useContext(SpiritContext);
+  var [open, setOpen] = useState(false);
 
   return (
     <div className="spirit-selector">
@@ -197,7 +216,7 @@ const ResetButton = () => {
 }
 
 const Element = () => {
-  const {el, counts, updateCount} = useContext(SpiritContext);
+  const {el, counts} = useContext(SpiritContext);
 
   return (
     <div className={`element ${el.name.toLowerCase()}`} key={el.name} style={{ textAlign: "center" }}>
