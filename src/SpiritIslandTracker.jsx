@@ -79,16 +79,9 @@ const SpiritTracker = () => {
     }));
   };
 
-  const handleSpiritChange = (event) => {
-    const spiritName = event.target.value;
-    const spirit = spiritsData[spiritName];
-    setSelectedSpirit(spiritName);
-    setInnateRequirements(spirit ? spirit : []);
-  };
-
   return (
-    <div className="spirit">
-      <SpiritContext.Provider value={{resetCounts, handleSpiritChange}}>
+    <div className={`spirit ${selectedSpirit && selectedSpirit.toLowerCase().replaceAll(' ', '-')}`}>
+      <SpiritContext.Provider value={{resetCounts, selectedSpirit, setSelectedSpirit, setInnateRequirements}}>
         <div className="global-controls">
           <SpiritSelector/>
           <ResetButton />
@@ -113,7 +106,6 @@ const SpiritTracker = () => {
 };
 
 const Innate = ({ innate, counts, index }) => {
-  console.log('all Thresholds',innate.Thresholds, 'counts', counts);
 
   function isThresholdADefinedElement(elem) {
     return elements.some(
@@ -183,21 +175,45 @@ const Innate = ({ innate, counts, index }) => {
 }
 
 const SpiritSelector = () => {
-  const {handleSpiritChange} = useContext(SpiritContext);
+  const {selectedSpirit, setSelectedSpirit, setInnateRequirements} = useContext(SpiritContext);
   var [open, setOpen] = useState(false);
+
+  const handleOpen = (e) => {
+    e.stopPropagation();
+    setOpen(!open);
+    document.addEventListener('click', function removeOpen() {
+      console.log('est')
+      document.removeEventListener('click', removeOpen);
+      setOpen(false);
+    });
+  }
+
+  const handleSpiritChange = (event) => {
+    const { dataset } = event.target;
+    console.log(dataset);
+    const spiritName = dataset.spiritName;
+    const spirit = spiritsData[spiritName];
+    setSelectedSpirit(spiritName);
+    setInnateRequirements(spirit ? spirit : []);
+    setOpen(false);
+  };
 
   return (
     <div className="spirit-selector">
-      <select onChange={handleSpiritChange} style={{ fontSize: "1em" }}>
-        <option value="">Select a Spirit</option>
+      {selectedSpirit ? (
+        <h2 onClick={handleOpen}>{selectedSpirit.split(' - ')[0]}{selectedSpirit.split(' - ')[1] && <sup>{selectedSpirit.split(' - ')[1]}</sup>}</h2>
+      ) : (
+        <h2 onClick={handleOpen}>Select a Spirit</h2>
+      )}
+      <div className={`spirit-list ${open && 'open'}`}>
         {Object.keys(spiritsData)
           .sort()
           .map((spiritName) => (
-            <option key={spiritName} value={spiritName}>
-              {spiritName}
-            </option>
+            <div onClick={handleSpiritChange} className={`spirit-name ${spiritName.toLowerCase().replaceAll(' ', '-')}`} key={spiritName} data-spirit-name={spiritName}>
+              {spiritName.split(' - ')[0]}{spiritName.split(' - ')[1] && <sup>{spiritName.split(' - ')[1]}</sup>}
+            </div>
           ))}
-      </select>
+      </div>
     </div>
   )
 }

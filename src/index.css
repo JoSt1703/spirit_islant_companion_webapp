@@ -130,6 +130,7 @@ button:focus-visible {
   border-radius: 10px;
   flex-basis: calc(33% - 33px);
   flex-grow: 1;
+  position: relative;
 }
 
 .global-controls {
@@ -143,7 +144,36 @@ button:focus-visible {
   }
 
   .spirit-selector {
+    h2 {
+      text-align: left;
+      margin: 0;
+    }
 
+    .spirit-list {
+      display: none;
+      --gutter: 25px;
+      padding: 20px;
+      text-align: left;
+      background-color: rgb(246, 222, 181);
+      border: 2px solid rgb(97, 76, 38);
+      position: absolute;
+      top: var(--gutter);
+      left: var(--gutter);
+      width: calc(100% - var(--gutter) * 2);
+      height: calc(100% - var(--gutter) * 2);
+      border-radius: 6px;
+      z-index: 1;
+      overflow: auto;
+
+      &.open {
+        display: block;
+      }
+
+      .spirit-name {
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
   }
 }
 
@@ -289,7 +319,7 @@ button:focus-visible {
     display: flex;
     justify-content: center;
     gap: 5px;
-    border: var(--border-width) solid rgb(187, 0, 0);
+    border: var(--border-width) solid rgb(173 3 3);
     border-left-color: rgb(0, 160, 99);
     border-radius: 5px;
     padding: 5px;
@@ -310,7 +340,7 @@ button:focus-visible {
     &::after {bottom: calc(var(--border-width) * -1);}
 
     &.empty {
-      border-left-color: rgb(187, 0, 0);
+      border-left-color: rgb(173 3 3);
     }
 
     &.met {
