@@ -12,6 +12,18 @@ import moonImg from "./assets/moon.png";
 import sunImg from "./assets/sun.png";
 import energyImg from "./assets/energy.png";
 
+const loadedSpiritImages = import.meta.glob('./assets/spirits/*.png', {
+  eager: true,
+  import: 'default',
+});
+
+const spiritImages = Object.fromEntries(
+  Object.entries(loadedSpiritImages).map(([path, src]) => {
+    const fileName = path.split('/').pop().split('.').shift();
+    return [fileName, src];
+  })
+);
+
 // Element definitions
 const elements = [
   { name: "Sun", image: sunImg },
@@ -27,6 +39,28 @@ const elements = [
 ];
 
 const SpiritContext = createContext();
+
+// Format the Spirit Name for class
+function spiritClass(spiritName, includeAspect = false) {
+  const baseName = includeAspect ? spiritName : spiritName.split(' - ')[0];
+  return baseName.toLowerCase().replaceAll(/\s|'/g, '-');
+}
+
+// Format the Spirit Name for fetching img
+function spiritImgKey(spiritName, includeAspect = false) {
+  const baseName = includeAspect ? spiritName : spiritName.split(' - ')[0];
+  return baseName.toLowerCase().replaceAll(/\s|'/g, '');
+}
+
+// Format the Spirit Name for display
+function spiritDisplay(spiritName) { 
+  return (
+    <>
+      {spiritName.split(' - ')[0]}
+      {spiritName.split(' - ')[1] && <sup className="aspect">{spiritName.split(' - ')[1]}</sup>}
+    </>
+  )
+}
 
 const SpiritIslandTracker = () => {
   const [spiritCount, setSpiritCount] = useState(1);
@@ -182,15 +216,14 @@ const SpiritSelector = () => {
     e.stopPropagation();
     setOpen(!open);
     document.addEventListener('click', function removeOpen() {
-      console.log('est')
       document.removeEventListener('click', removeOpen);
       setOpen(false);
     });
   }
 
   const handleSpiritChange = (event) => {
-    const { dataset } = event.target;
-    console.log(dataset);
+    const { dataset } = event.currentTarget;
+    console.log(event.currentTarget, dataset);
     const spiritName = dataset.spiritName;
     const spirit = spiritsData[spiritName];
     setSelectedSpirit(spiritName);
@@ -201,7 +234,10 @@ const SpiritSelector = () => {
   return (
     <div className="spirit-selector">
       {selectedSpirit ? (
-        <h2 onClick={handleOpen}>{selectedSpirit.split(' - ')[0]}{selectedSpirit.split(' - ')[1] && <sup>{selectedSpirit.split(' - ')[1]}</sup>}</h2>
+        <h2 onClick={handleOpen}>
+          <img src={spiritImages[spiritImgKey(selectedSpirit)]} />
+          <span>{spiritDisplay(selectedSpirit)}</span>
+        </h2>
       ) : (
         <h2 onClick={handleOpen}>Select a Spirit</h2>
       )}
@@ -209,8 +245,9 @@ const SpiritSelector = () => {
         {Object.keys(spiritsData)
           .sort()
           .map((spiritName) => (
-            <div onClick={handleSpiritChange} className={`spirit-name ${spiritName.toLowerCase().replaceAll(' ', '-')}`} key={spiritName} data-spirit-name={spiritName}>
-              {spiritName.split(' - ')[0]}{spiritName.split(' - ')[1] && <sup>{spiritName.split(' - ')[1]}</sup>}
+            <div onClick={handleSpiritChange} className={`spirit-name ${spiritClass(spiritName)}`} key={spiritName} data-spirit-name={spiritName}>
+              <img src={spiritImages[spiritImgKey(spiritName)]} />
+              <span>{spiritDisplay(spiritName)}</span>
             </div>
           ))}
       </div>
@@ -261,8 +298,8 @@ const Incrementor = ({ type }) => {
 
   return (
     <div className={`incrementors ${type}`}>
-      <button onClick={() => updateCount(el.name, 1, type)}>+</button>
-      <button onClick={() => updateCount(el.name, -1, type)}>-</button>
+      <button onClick={() => updateCount(el.name, 1, type)}><span>+</span></button>
+      <button onClick={() => updateCount(el.name, -1, type)}><span>-</span></button>
     </div>
   )
 }

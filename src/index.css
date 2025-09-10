@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --spirit-color: 240, 234, 214;
+  --spirit-text: 0, 0, 0;
 }
 
 a {
@@ -109,6 +111,118 @@ button:focus-visible {
   /* --element-color: #001F3F; */
 }
 
+.a-spread-of-rampant-green {
+  --spirit-color: 34, 139, 34;
+}
+.breath-of-darkness-down-your-spine {
+  --spirit-color: 25, 25, 112;
+}
+.bringer-of-dreams-and-nightmares {
+  --spirit-color: 123, 104, 238;
+}
+.dances-up-earthquakes {
+  --spirit-color: 205, 92, 92;
+}
+.devouring-teeth-lurk-underfoot {
+  --spirit-color: 139, 69, 19;
+}
+.downpour-drenches-the-world {
+  --spirit-color: 30, 144, 255;
+}
+.ember-eyed-behemoth {
+  --spirit-color: 220, 20, 60;
+}
+.eyes-watch-from-the-trees {
+  --spirit-color: 
+}
+.fathomless-mud-of-the-swamp {
+  --spirit-color: 47, 79, 79;
+}
+.finder-of-paths-unseen {
+  --spirit-color: 186, 85, 211;
+}
+.fractured-days-split-the-sky {
+  --spirit-color: 70, 130, 180;
+}
+.grinning-trickster-stirs-up-trouble {
+  --spirit-color: 199, 21, 133;
+}
+.heart-of-the-wildfire {
+  --spirit-color: 255, 99, 71;
+}
+.hearth-vigil {
+  --spirit-color: 255, 182, 193;
+}
+.keeper-of-the-forbidden-wilds {
+  --spirit-color: 0, 100, 0;
+}
+.lightning-s-swift-strike {
+  --spirit-color: 255, 215, 0;
+}
+.lure-of-the-deep-wilderness {
+  --spirit-color: 34, 139, 34;
+}
+.many-minds-move-as-one {
+  --spirit-color: 100, 149, 237;
+}
+.ocean-s-hungry-grasp {
+  --spirit-color: 30, 144, 255;
+}
+.relentless-gaze-of-the-sun {
+  --spirit-color: 255, 140, 0;
+}
+.rising-heat-of-stone-and-sand {
+  --spirit-color: 210, 105, 30;
+}
+.river-surges-in-sunlight {
+  --spirit-color: 135, 206, 250;
+}
+.serpent-slumbering-beneath-the-island {
+  --spirit-color: 85, 107, 47;
+}
+.shadows-flicker-like-flame {
+  --spirit-color: 105, 105, 105;
+}
+.sharp-fangs-behind-the-leaves {
+  --spirit-color: 46, 139, 87;
+}
+.shifting-memory-of-ages {
+  --spirit-color: 218, 165, 32;
+}
+.shroud-of-silent-mist {
+  --spirit-color: 
+}
+.starlight-seeks-its-form {
+  --spirit-color: 72, 61, 139;
+}
+.stone-s-unyielding-defiance {
+  --spirit-color: 112, 128, 144;
+}
+.sun-bright-whirlwind {
+  --spirit-color: 255, 255, 0;
+}
+.thunderspeaker {
+  --spirit-color: 255, 69, 0;
+}
+.towering-roots-of-the-jungle {
+  --spirit-color: 0, 128, 0;
+}
+.vengeance-as-a-burning-plague {
+  --spirit-color: 139, 0, 0;
+}
+.vital-strength-of-the-earth {
+  --spirit-color: 160, 82, 45;
+}
+.volcano-looming-high {
+  --spirit-color: 178, 34, 34;
+}
+.wandering-voice-keens-delirium {
+  --spirit-color: 138, 43, 226;
+}
+.wounded-waters-bleeding {
+  --spirit-color: 70, 130, 180;
+}
+
 .spirits {
   padding: 50px;
   width: 100%;
@@ -116,7 +230,7 @@ button:focus-visible {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 50px
+  gap: 20px;
 }
 
 .spirit {
@@ -126,18 +240,31 @@ button:focus-visible {
   text-align: center;
   gap: 20px;
   padding: 20px;
-  border: 2px solid #000;
+  border: 2px solid rgb(var(--spirit-color));
   border-radius: 10px;
   flex-basis: calc(33% - 33px);
   flex-grow: 1;
   position: relative;
 }
 
+.aspect {
+  font-family: monospace;
+  text-transform: uppercase;
+  font-size: 12px;
+  background: rgb(var(--spirit-color));
+  border: 1px solid color-mix(in srgb, rgb(var(--spirit-color)) 55%, black 45%);
+  color: rgb(var(--spirit-text));
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-left: 5px;
+}
+
 .global-controls {
   display: flex;
-  align-items: center;
-  width: 100%;
+  align-items: start;
   justify-content: space-between;
+  width: 100%;
+  gap: 10px;
 
   .reset-button {
     font-size: 1em;
@@ -145,14 +272,32 @@ button:focus-visible {
 
   .spirit-selector {
     h2 {
+      font-size: 20px;
       text-align: left;
       margin: 0;
+      border: 2px solid rgb(var(--spirit-color));
+      padding: 2px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      
+      &:has(img) {
+        padding: 0;
+        display: flex;
+      }
+
+      img + span {
+        position: absolute;
+        left: 10px;
+        right: 10px;
+      }
     }
 
     .spirit-list {
       display: none;
       --gutter: 25px;
-      padding: 20px;
+      padding: 10px 20px;
       text-align: left;
       background-color: rgb(246, 222, 181);
       border: 2px solid rgb(97, 76, 38);
@@ -162,7 +307,7 @@ button:focus-visible {
       width: calc(100% - var(--gutter) * 2);
       height: calc(100% - var(--gutter) * 2);
       border-radius: 6px;
-      z-index: 1;
+      z-index: 3;
       overflow: auto;
 
       &.open {
@@ -171,7 +316,25 @@ button:focus-visible {
 
       .spirit-name {
         font-size: 20px;
+        color: #000;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        position: relative;
+        
+        &+ .spirit-name {
+          border-top: 1px solid rgb(97, 76, 38);
+        }
+
+        img {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          object-fit: cover;
+          object-position: left top;
+        }
       }
     }
   }
@@ -180,7 +343,7 @@ button:focus-visible {
 .elements {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   gap: 15px;
   overflow-x: auto;
 }
@@ -272,7 +435,8 @@ button:focus-visible {
       align-items: center;
       color: rgb(var(--element-color));
       font-weight: 700;
-      font-size: ;
+      font-size: 30px;
+      font-family: monospace;
       border: 2px solid color-mix(in srgb, rgb(var(--element-color)) 70%, black 30%);
       background-color: color-mix(in srgb, rgb(var(--element-color)) 5%, white 95%);
       outline: none;
@@ -294,12 +458,13 @@ button:focus-visible {
   flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
-  gap: 10px;
+  gap: 20px;
 
   .innate-power {
-    margin: 5px;
     padding: 10px;
     min-width: 25%;
+    max-width: 50%;
+    flex-grow: 1;
     border: 1px solid rgb(204, 204, 204);
     background-color: #242424;
     border-radius: 5px;
@@ -333,6 +498,7 @@ button:focus-visible {
       height: var(--border-width);
       max-height: 100%;
       background-color: rgb(0, 160, 99);
+      border-radius: 10px;
       z-index: 0;
     }
 
@@ -347,8 +513,9 @@ button:focus-visible {
       border: var(--border-width) solid rgb(0, 160, 99);
       box-shadow: 0 0 5px rgba(0, 250, 154, 0.6);
 
+      &::before,
       &::after {
-        background-color: rgba(0, 160, 99, .1);
+        display: none;
       }
     }
 
