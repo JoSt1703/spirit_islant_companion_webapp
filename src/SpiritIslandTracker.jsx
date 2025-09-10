@@ -42,6 +42,7 @@ const SpiritContext = createContext();
 
 // Format the Spirit Name for class
 function spiritClass(spiritName, includeAspect = false) {
+  if (!spiritName) return '';
   const baseName = includeAspect ? spiritName : spiritName.split(' - ')[0];
   return baseName.toLowerCase().replaceAll(/\s|'/g, '-');
 }
@@ -114,13 +115,14 @@ const SpiritTracker = () => {
   };
 
   return (
-    <div className={`spirit ${selectedSpirit && selectedSpirit.toLowerCase().replaceAll(' ', '-')}`}>
+    <div className={`spirit ${spiritClass(selectedSpirit)}`}>
       <SpiritContext.Provider value={{resetCounts, selectedSpirit, setSelectedSpirit, setInnateRequirements}}>
         <div className="global-controls">
           <SpiritSelector/>
           <ResetButton />
         </div>
       </SpiritContext.Provider>
+      <h4>Elements</h4>
       <div className="elements">
         {elements.map((el) => (
           <SpiritContext.Provider value={{el, counts, updateCount}} key={el.name}>
@@ -129,11 +131,14 @@ const SpiritTracker = () => {
         ))}
       </div>
       {selectedSpirit && (
-        <div className="innate-requirements">
-          {innateRequirements.map((innate, index) => (
-            <Innate innate={innate} counts={counts} index={index} key={index} />
-          ))}
-        </div>
+        <>
+          <h4>Innates</h4>
+          <div className="innate-requirements">
+            {innateRequirements.map((innate, index) => (
+              <Innate innate={innate} counts={counts} index={index} key={index} />
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
@@ -228,7 +233,6 @@ const SpiritSelector = () => {
     const spirit = spiritsData[spiritName];
     setSelectedSpirit(spiritName);
     setInnateRequirements(spirit ? spirit : []);
-    setOpen(false);
   };
 
   return (
