@@ -115,25 +115,25 @@ button:focus-visible {
   --spirit-color: 34, 139, 34;
 }
 .breath-of-darkness-down-your-spine {
-  --spirit-color: 25, 25, 112;
+  --spirit-color: 75, 0, 130;
 }
 .bringer-of-dreams-and-nightmares {
   --spirit-color: 123, 104, 238;
 }
 .dances-up-earthquakes {
-  --spirit-color: 205, 92, 92;
+  --spirit-color: 139, 69, 19;
 }
 .devouring-teeth-lurk-underfoot {
-  --spirit-color: 139, 69, 19;
+  --spirit-color: 139, 0, 0;
 }
 .downpour-drenches-the-world {
   --spirit-color: 30, 144, 255;
 }
 .ember-eyed-behemoth {
-  --spirit-color: 220, 20, 60;
+  --spirit-color: 189 38 13;
 }
 .eyes-watch-from-the-trees {
-  --spirit-color: 
+  --spirit-color: 85, 107, 47;
 }
 .fathomless-mud-of-the-swamp {
   --spirit-color: 47, 79, 79;
@@ -151,7 +151,7 @@ button:focus-visible {
   --spirit-color: 255, 99, 71;
 }
 .hearth-vigil {
-  --spirit-color: 255, 182, 193;
+  --spirit-color: 205, 133, 63;
 }
 .keeper-of-the-forbidden-wilds {
   --spirit-color: 0, 100, 0;
@@ -160,13 +160,13 @@ button:focus-visible {
   --spirit-color: 255, 215, 0;
 }
 .lure-of-the-deep-wilderness {
-  --spirit-color: 34, 139, 34;
+  --spirit-color: 46, 139, 87;
 }
 .many-minds-move-as-one {
-  --spirit-color: 100, 149, 237;
+  --spirit-color: 245 26 26;
 }
 .ocean-s-hungry-grasp {
-  --spirit-color: 30, 144, 255;
+  --spirit-color: 0, 105, 148;
 }
 .relentless-gaze-of-the-sun {
   --spirit-color: 255, 140, 0;
@@ -178,19 +178,19 @@ button:focus-visible {
   --spirit-color: 135, 206, 250;
 }
 .serpent-slumbering-beneath-the-island {
-  --spirit-color: 85, 107, 47;
+  --spirit-color: 0, 128, 128;
 }
 .shadows-flicker-like-flame {
   --spirit-color: 105, 105, 105;
 }
 .sharp-fangs-behind-the-leaves {
-  --spirit-color: 46, 139, 87;
+  --spirit-color: 193 0 0;
 }
 .shifting-memory-of-ages {
   --spirit-color: 218, 165, 32;
 }
 .shroud-of-silent-mist {
-  --spirit-color: 
+  --spirit-color: 176, 196, 222;
 }
 .starlight-seeks-its-form {
   --spirit-color: 72, 61, 139;
@@ -208,19 +208,19 @@ button:focus-visible {
   --spirit-color: 0, 128, 0;
 }
 .vengeance-as-a-burning-plague {
-  --spirit-color: 139, 0, 0;
+  --spirit-color: 178, 34, 34;
 }
 .vital-strength-of-the-earth {
   --spirit-color: 160, 82, 45;
 }
 .volcano-looming-high {
-  --spirit-color: 178, 34, 34;
+  --spirit-color: 179 74 0;
 }
 .wandering-voice-keens-delirium {
-  --spirit-color: 138, 43, 226;
+  --spirit-color: 128, 0, 128;
 }
 .wounded-waters-bleeding {
-  --spirit-color: 70, 130, 180;
+  --spirit-color: 65, 105, 225;
 }
 
 .spirits {
