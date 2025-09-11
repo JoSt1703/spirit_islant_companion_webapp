@@ -56,7 +56,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -67,7 +67,7 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
 
 .energy {
   --element-color: #AF976D;
@@ -130,7 +130,7 @@ button:focus-visible {
   --spirit-color: 30, 144, 255;
 }
 .ember-eyed-behemoth {
-  --spirit-color: 189 38 13;
+  --spirit-color: 189, 38, 13;
 }
 .eyes-watch-from-the-trees {
   --spirit-color: 85, 107, 47;
@@ -184,7 +184,7 @@ button:focus-visible {
   --spirit-color: 105, 105, 105;
 }
 .sharp-fangs-behind-the-leaves {
-  --spirit-color: 193 0 0;
+  --spirit-color: 193, 0, 0;
 }
 .shifting-memory-of-ages {
   --spirit-color: 218, 165, 32;
@@ -240,6 +240,7 @@ button:focus-visible {
   text-align: center;
   gap: 20px;
   padding: 20px;
+  min-height: 333px;
   border: 2px solid rgb(var(--spirit-color));
   background-color: rgba(var(--spirit-color), .2);
   border-radius: 10px;
@@ -247,9 +248,76 @@ button:focus-visible {
   flex-grow: 1;
   position: relative;
 
+  &.closed {
+    min-height: 0;
+    align-self: flex-start;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    h4,
+    .elements,
+    .innate-requirements {
+      display: none;
+    }
+
+    .global-controls {
+      .spirit-selector {
+        width: 100%;
+
+        img {
+          display: none;
+        }
+
+        span {
+          position: relative;
+          width: 100%;
+        }
+      }
+
+      .reset-button {
+        display: none;
+      }
+    }
+  }
+
+  .spirit-toggle {
+    position: absolute;
+    cursor: pointer;
+    top: -20px;
+    left: -20px;
+    background-color: color-mix(in srgb, rgb(var(--spirit-color)) 55%, black 45%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    &::after,
+    &::before {
+      position: absolute;
+      margin: auto;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      height: 4px;
+      width: 50%;
+    }
+
+    .closed &::before {content: '';transform: rotate(90deg);}
+    &::after {content: '';}
+  }
+
   &> h4 {
     margin: 0;
-    text-decoration: underline;
+    border-bottom: 1px solid #fff;
     cursor: pointer;
     width: 100%;
     text-align: left;
@@ -257,15 +325,19 @@ button:focus-visible {
     &::after {
       content: '❯';
       display: inline-block;
-      margin-left: 5px;
+      margin-left: 10px;
       text-decoration: none;
       transform: rotate(270deg);
     }
   }
 
-  @media (prefers-color-scheme: light) {
-    /* background-color: color-mix(in srgb, rgb(var(--spirit-color)) 25%, white 75%); */
+  .closed:after {
+    transform: rotate(90deg);
   }
+
+  /* @media (prefers-color-scheme: light) {
+    background-color: color-mix(in srgb, rgb(var(--spirit-color)) 25%, white 75%);
+  } */
 }
 
 .aspect {
@@ -289,6 +361,7 @@ button:focus-visible {
 
   .reset-button {
     font-size: 1em;
+    color: #fff;
   }
 
   .spirit-selector {
@@ -334,7 +407,7 @@ button:focus-visible {
       z-index: 3;
       overflow: auto;
 
-      &.open {
+      &.open:not(.closed &) {
         display: block;
       }
 
@@ -370,6 +443,10 @@ button:focus-visible {
   justify-content: space-between;
   gap: 15px;
   overflow-x: auto;
+
+  .closed + & {
+    display: none;
+  }
 }
 
 .element {
@@ -400,7 +477,7 @@ button:focus-visible {
     width: 100%;
     background-color: color-mix(in srgb, rgb(var(--element-color)) 25%, white 75%);
     border: 1px solid rgb(var(--element-color));
-    padding: 5px;
+    padding: 2px;
     border-radius: 5px;
     margin-bottom: 10px;
     position: relative;
@@ -439,7 +516,8 @@ button:focus-visible {
     }
 
     .total-count {
-      font-size: 20px;
+      font-size: 24px;
+      font-weight: 700;
       color: color-mix(in srgb, rgb(var(--element-color)) 30%, black);
       font-family: monospace;
     }
@@ -476,13 +554,15 @@ button:focus-visible {
 }
 
 .innate-requirements {
-  margin-top: 20px;
   width: 100%;
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
   gap: 20px;
+
+  .closed + & {
+    display: none;
+  }
 
   .innate-power {
     min-width: 25%;
@@ -536,10 +616,6 @@ button:focus-visible {
       &::before,
       &::after {
         display: none;
-      }
-
-      @media (prefers-color-scheme: light) {
-        box-shadow: 0 0 20px rgba(var(--element-color), 0.8);
       }
     }
 

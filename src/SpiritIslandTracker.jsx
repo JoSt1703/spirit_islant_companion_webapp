@@ -80,9 +80,14 @@ const SpiritIslandTracker = () => {
 
 const SpiritTracker = () => {
   const [counts, setCounts] = useState(
-    // elements.reduce((acc, el) => ({ ...acc, [el.name]: 0 }), {})
+    // track persistant elements (from board) and temporay ones
     elements.reduce((acc, el) => ({ ...acc, [el.name]: {temp: 0, persist: 0} }), {})
   );
+  // toggles for hide/unhide information
+  const [spiritOpen, setSpiritOpen] = useState(true);
+  const [elementsOpen, setElementsOpen] = useState(true);
+  const [innatesOpen, setInnatesOpen] = useState(true);
+
   const [selectedSpirit, setSelectedSpirit] = useState(null);
   const [innateRequirements, setInnateRequirements] = useState([]);
 
@@ -115,14 +120,15 @@ const SpiritTracker = () => {
   };
 
   return (
-    <div className={`spirit ${spiritClass(selectedSpirit)}`}>
+    <div className={`spirit ${spiritClass(selectedSpirit)} ${spiritOpen ? 'open' : 'closed'}`} onClick={e => setSpiritOpen(true)}>
+      <div className="spirit-toggle" onClick={(e) => {e.stopPropagation(); setSpiritOpen(!spiritOpen)}}></div>
       <SpiritContext.Provider value={{resetCounts, selectedSpirit, setSelectedSpirit, setInnateRequirements}}>
         <div className="global-controls">
           <SpiritSelector/>
           <ResetButton />
         </div>
       </SpiritContext.Provider>
-      <h4>Elements</h4>
+      <h4 className={elementsOpen ? 'open' : 'closed'} onClick={e => setElementsOpen(!elementsOpen)}>Elements</h4>
       <div className="elements">
         {elements.map((el) => (
           <SpiritContext.Provider value={{el, counts, updateCount}} key={el.name}>
@@ -132,7 +138,7 @@ const SpiritTracker = () => {
       </div>
       {selectedSpirit && (
         <>
-          <h4>Innates</h4>
+          <h4 className={innatesOpen ? 'open' : 'closed'} onClick={e => setInnatesOpen(!innatesOpen)}>Innates</h4>
           <div className="innate-requirements">
             {innateRequirements.map((innate, index) => (
               <Innate innate={innate} counts={counts} index={index} key={index} />
