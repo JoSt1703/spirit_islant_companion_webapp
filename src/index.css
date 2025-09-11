@@ -362,6 +362,7 @@ button:focus-visible {
   .reset-button {
     font-size: 1em;
     color: #fff;
+    align-self: end;
   }
 
   .spirit-selector {

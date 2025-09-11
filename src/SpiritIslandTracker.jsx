@@ -89,7 +89,6 @@ const SpiritTracker = () => {
   const [innatesOpen, setInnatesOpen] = useState(true);
 
   const [selectedSpirit, setSelectedSpirit] = useState(null);
-  const [innateRequirements, setInnateRequirements] = useState([]);
 
   const updateCount = (element, delta, type) => {
     const otherType = type == 'temp' ? 'persist' : 'temp';
@@ -122,7 +121,7 @@ const SpiritTracker = () => {
   return (
     <div className={`spirit ${spiritClass(selectedSpirit)} ${spiritOpen ? 'open' : 'closed'}`} onClick={e => setSpiritOpen(true)}>
       <div className="spirit-toggle" onClick={(e) => {e.stopPropagation(); setSpiritOpen(!spiritOpen)}}></div>
-      <SpiritContext.Provider value={{resetCounts, selectedSpirit, setSelectedSpirit, setInnateRequirements}}>
+      <SpiritContext.Provider value={{resetCounts, selectedSpirit, setSelectedSpirit}}>
         <div className="global-controls">
           <SpiritSelector/>
           <ResetButton />
@@ -140,7 +139,7 @@ const SpiritTracker = () => {
         <>
           <h4 className={innatesOpen ? 'open' : 'closed'} onClick={e => setInnatesOpen(!innatesOpen)}>Innates</h4>
           <div className="innate-requirements">
-            {innateRequirements.map((innate, index) => (
+            {spiritsData[selectedSpirit].map((innate, index) => (
               <Innate innate={innate} counts={counts} index={index} key={index} />
             ))}
           </div>
@@ -220,7 +219,7 @@ const Innate = ({ innate, counts, index }) => {
 }
 
 const SpiritSelector = () => {
-  const {selectedSpirit, setSelectedSpirit, setInnateRequirements} = useContext(SpiritContext);
+  const {selectedSpirit, setSelectedSpirit} = useContext(SpiritContext);
   var [open, setOpen] = useState(false);
 
   const handleOpen = (e) => {
@@ -236,9 +235,7 @@ const SpiritSelector = () => {
     const { dataset } = event.currentTarget;
     console.log(event.currentTarget, dataset);
     const spiritName = dataset.spiritName;
-    const spirit = spiritsData[spiritName];
     setSelectedSpirit(spiritName);
-    setInnateRequirements(spirit ? spirit : []);
   };
 
   return (
