@@ -11,6 +11,8 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  --spirit-color: 240, 234, 214;
+  --spirit-text: 0, 0, 0;
 }
 
 a {
@@ -45,7 +47,9 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  align-self: end;
 }
+
 button:hover {
   border-color: #646cff;
 }
@@ -54,7 +58,7 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -65,4 +69,727 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+} */
+
+.energy {
+  --element-color: #AF976D;
+  --element-color: 175, 151, 109;
+}
+.sun {
+  --element-color: #FFDA00;
+  --element-color: 255, 218, 0;
+}
+.moon {
+  --element-color: #DBD8C6;
+  --element-color: 219, 216, 198;
+}
+.fire {
+  --element-color: #F17C33;
+  --element-color: 241, 124, 51;
+}
+.air {
+  --element-color: #9A74B3;
+  --element-color: 154, 116, 179;
+}
+.water {
+  --element-color: #3488C8;
+  --element-color: 52, 136, 200;
+}
+.earth {
+  --element-color: #756764;
+  --element-color: 117, 103, 100;
+}
+.plant {
+  --element-color: #35AD50;
+  --element-color: 53, 173, 80;
+}
+.animal {
+  --element-color: #D62729;
+  --element-color: 214, 39, 41;
+}
+.joker {
+  --element-color: #00CED1;
+  --element-color: 0, 206, 209;
+  /* --element-color: #001F3F; */
+}
+
+.a-spread-of-rampant-green {
+  --spirit-color: 34, 139, 34;
+}
+.breath-of-darkness-down-your-spine {
+  --spirit-color: 75, 0, 130;
+}
+.bringer-of-dreams-and-nightmares {
+  --spirit-color: 123, 104, 238;
+}
+.dances-up-earthquakes {
+  --spirit-color: 139, 69, 19;
+}
+.devouring-teeth-lurk-underfoot {
+  --spirit-color: 139, 0, 0;
+}
+.downpour-drenches-the-world {
+  --spirit-color: 30, 144, 255;
+}
+.ember-eyed-behemoth {
+  --spirit-color: 189, 38, 13;
+}
+.eyes-watch-from-the-trees {
+  --spirit-color: 85, 107, 47;
+}
+.fathomless-mud-of-the-swamp {
+  --spirit-color: 47, 79, 79;
+}
+.finder-of-paths-unseen {
+  --spirit-color: 186, 85, 211;
+}
+.fractured-days-split-the-sky {
+  --spirit-color: 70, 130, 180;
+}
+.grinning-trickster-stirs-up-trouble {
+  --spirit-color: 199, 21, 133;
+}
+.heart-of-the-wildfire {
+  --spirit-color: 255, 99, 71;
+}
+.hearth-vigil {
+  --spirit-color: 205, 133, 63;
+}
+.keeper-of-the-forbidden-wilds {
+  --spirit-color: 0, 100, 0;
+}
+.lightning-s-swift-strike {
+  --spirit-color: 255, 215, 0;
+}
+.lure-of-the-deep-wilderness {
+  --spirit-color: 46, 139, 87;
+}
+.many-minds-move-as-one {
+  --spirit-color: 245, 26, 26;
+}
+.ocean-s-hungry-grasp {
+  --spirit-color: 0, 105, 148;
+}
+.relentless-gaze-of-the-sun {
+  --spirit-color: 255, 140, 0;
+}
+.rising-heat-of-stone-and-sand {
+  --spirit-color: 210, 105, 30;
+}
+.river-surges-in-sunlight {
+  --spirit-color: 135, 206, 250;
+}
+.serpent-slumbering-beneath-the-island {
+  --spirit-color: 0, 128, 128;
+}
+.shadows-flicker-like-flame {
+  --spirit-color: 105, 105, 105;
+}
+.sharp-fangs-behind-the-leaves {
+  --spirit-color: 193, 0, 0;
+}
+.shifting-memory-of-ages {
+  --spirit-color: 218, 165, 32;
+}
+.shroud-of-silent-mist {
+  --spirit-color: 176, 196, 222;
+}
+.starlight-seeks-its-form {
+  --spirit-color: 72, 61, 139;
+}
+.stone-s-unyielding-defiance {
+  --spirit-color: 112, 128, 144;
+}
+.sun-bright-whirlwind {
+  --spirit-color: 255, 255, 0;
+}
+.thunderspeaker {
+  --spirit-color: 255, 69, 0;
+}
+.towering-roots-of-the-jungle {
+  --spirit-color: 0, 128, 0;
+}
+.vengeance-as-a-burning-plague {
+  --spirit-color: 178, 34, 34;
+}
+.vital-strength-of-the-earth {
+  --spirit-color: 160, 82, 45;
+}
+.volcano-looming-high {
+  --spirit-color: 179, 74, 0;
+}
+.wandering-voice-keens-delirium {
+  --spirit-color: 128, 0, 128;
+}
+.wounded-waters-bleeding {
+  --spirit-color: 65, 105, 225;
+}
+
+.spirits {
+  padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px;
+}
+
+.add-sprit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+  padding: 20px;
+  min-height: 333px;
+  border: 2px solid rgb(var(--spirit-color));
+  border-radius: 10px;
+  flex-basis: calc(34.41% - 33px);
+  position: relative;
+  cursor: pointer;
+}
+
+.plus-button {
+  position: relative;
+  cursor: pointer;
+  background-color: color-mix(in srgb, rgb(var(--spirit-color)) 55%, black 45%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    height: 4px;
+    width: 50%;
+  }
+
+  &::before {transform: rotate(90deg);}
+}
+
+.spirit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  padding: 20px;
+  min-height: 333px;
+  border: 2px solid rgb(var(--spirit-color));
+  background-color: rgba(var(--spirit-color), .2);
+  border-radius: 10px;
+  width: calc(33% - 33px);
+  flex-grow: 1;
+  position: relative;
+
+  &.closed {
+    min-height: 0;
+    align-self: flex-start;
+    cursor: pointer;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    h4,
+    .elements,
+    .innate-requirements {
+      display: none;
+    }
+
+    .global-controls {
+      .spirit-selector {
+        width: 100%;
+
+        img {
+          display: none;
+        }
+
+        span {
+          position: relative;
+          width: 100%;
+        }
+      }
+
+      .reset-button {
+        display: none;
+      }
+    }
+  }
+
+  .spirit-toggle,
+  .spirit-remove {
+    position: absolute;
+    cursor: pointer;
+    top: -20px;
+    left: -20px;
+    background-color: color-mix(in srgb, rgb(var(--spirit-color)) 55%, black 45%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+
+    &::after,
+    &::before {
+      position: absolute;
+      margin: auto;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: #fff;
+      height: 4px;
+      width: 50%;
+    }
+
+    .closed &::before {content: '';transform: rotate(90deg);}
+    &::after {content: '';}
+  }
+
+  .spirit-remove {
+    left: auto;
+    right: -20px;
+    &::before {content: '';transform: rotate(45deg);}
+    &::after {content: '';transform: rotate(-45deg)}
+    .closed & {
+      display: none;
+    }
+  }
+
+  &> h4 {
+    margin: 0;
+    border-bottom: 1px solid #fff;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+
+    &::after {
+      content: '❯';
+      display: inline-block;
+      margin-left: 10px;
+      text-decoration: none;
+      transform: rotate(270deg);
+    }
+  }
+
+  .closed:after {
+    transform: rotate(90deg);
+  }
+
+  /* @media (prefers-color-scheme: light) {
+    background-color: color-mix(in srgb, rgb(var(--spirit-color)) 25%, white 75%);
+  } */
+}
+
+.aspect {
+  font-family: monospace;
+  text-transform: uppercase;
+  font-size: 12px;
+  background: rgb(var(--spirit-color));
+  border: 1px solid color-mix(in srgb, rgb(var(--spirit-color)) 55%, black 45%);
+  color: rgb(var(--spirit-text));
+  padding: 2px 6px;
+  border-radius: 6px;
+  margin-left: 5px;
+  display: inline-block;
+}
+
+.global-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: start;
+  justify-content: space-between;
+  width: 100%;
+  gap: 10px;
+
+  .reset-button {
+    font-size: 1em;
+    color: #fff;
+    align-self: end;
+  }
+
+  .spirit-selector {
+    h2 {
+      font-size: 20px;
+      text-align: left;
+      margin: 0;
+      border: 2px solid rgb(var(--spirit-color));
+      padding: 2px 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      
+      &:has(img) {
+        padding: 0;
+        display: flex;
+      }
+
+      img {max-width: 100%;}
+      
+      img + span {
+        position: absolute;
+        left: 0;
+        right: 0;
+        padding-inline: 10px;
+        background: rgba(0, 0, 0, 0.3);
+        color: #fff;
+      }
+    }
+
+    .spirit-list {
+      display: none;
+      --gutter: 25px;
+      padding: 10px 20px;
+      text-align: left;
+      background-color: rgb(246, 222, 181);
+      border: 2px solid rgb(97, 76, 38);
+      position: absolute;
+      top: var(--gutter);
+      left: var(--gutter);
+      width: calc(100% - var(--gutter) * 2);
+      height: calc(100% - var(--gutter) * 2);
+      border-radius: 6px;
+      z-index: 3;
+      overflow: auto;
+
+      &.open:not(.closed &) {
+        display: block;
+      }
+
+      .spirit-name {
+        font-size: 20px;
+        color: #000;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 0;
+        position: relative;
+        
+        &+ .spirit-name {
+          border-top: 1px solid rgb(97, 76, 38);
+        }
+
+        img {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          object-fit: cover;
+          object-position: left top;
+        }
+      }
+    }
+  }
+}
+
+.elements {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  /* overflow-x: auto; */
+
+  .closed + & {
+    display: none;
+  }
+}
+
+.element {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+
+  &.energy {
+    .element-info .persist-count {
+      left: 10px;
+
+      &::before {
+        content: '+';
+        font-weight: 700;;
+        position: absolute;
+        left: 0;
+        transform: translateX(-100%);
+        color: #194f19;
+      }
+    }
+  }
+
+  .element-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+    background-color: color-mix(in srgb, rgb(var(--element-color)) 25%, white 75%);
+    border: 1px solid rgb(var(--element-color));
+    padding: 2px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    position: relative;
+
+    img {
+      width: 35px;
+      height: 35px;
+    }
+
+    .joker {
+      width: 35px;
+      height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 35px;
+    }
+
+    .persist-count {
+      --count-size: 15px;
+      --count-position: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      bottom: var(--count-position);
+      left: var(--count-position);
+      font-size: 10px;
+      font-weight: 700;
+      background: rgb(var(--element-color));
+      color: #fff;
+      color: color-mix(in srgb, rgb(var(--element-color)) 15%, white);
+      background-color: color-mix(in srgb, rgb(var(--element-color)) 50%, black);
+      border-radius: 50%;
+      width: var(--count-size);
+      height: var(--count-size);
+    }
+
+    .total-count {
+      font-size: 24px;
+      font-weight: 700;
+      color: color-mix(in srgb, rgb(var(--element-color)) 30%, black);
+      font-family: monospace;
+    }
+  }
+
+  .incrementors {
+    display: flex;
+    gap: 5px;
+
+    button {
+      --size: 35px;
+      padding: 0;
+      height: var(--size);
+      width: var(--size);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgb(var(--element-color));
+      font-weight: 700;
+      font-size: 30px;
+      font-family: monospace;
+      border: 2px solid color-mix(in srgb, rgb(var(--element-color)) 70%, black 30%);
+      background-color: color-mix(in srgb, rgb(var(--element-color)) 5%, white 95%);
+      outline: none;
+    }
+
+    &.persist button {
+      color: #fff;
+      border: 0;
+      background-color: rgb(var(--element-color));
+      border-radius: 50%;
+    }
+  }
+}
+
+.innate-requirements {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+
+  .closed + & {
+    display: none;
+  }
+
+  .innate-power {
+    flex-basis: 40%;
+    flex-grow: 1;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    h6 {
+      margin: 0;
+    }
+  }
+
+  .threshold-line {
+    container-type: inline-size;
+    container-name: threshold; 
+    --border-width: 4px;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    border: var(--border-width) solid rgb(173 3 3);
+    border-left-color: rgb(0, 160, 99);
+    border-radius: 5px;
+    padding: 5px;
+
+    &::after,
+    &::before {
+      content: '';
+      position: absolute;
+      left: -3px;
+      width: var(--line-percentage);
+      height: var(--border-width);
+      max-height: 100%;
+      background-color: rgb(0, 160, 99);
+      border-radius: 10px;
+      z-index: 0;
+    }
+
+    &::before {top: calc(var(--border-width) * -1);}
+    &::after {bottom: calc(var(--border-width) * -1);}
+
+    &.empty {
+      border-left-color: rgb(173 3 3);
+    }
+
+    &.met {
+      border: var(--border-width) solid rgb(0, 160, 99);
+      box-shadow: 0 0 5px rgba(0, 250, 154, 0.5);
+
+      &::before,
+      &::after {
+        display: none;
+      }
+    }
+
+    .threshold-element {
+      height: 55px;
+      width: 55px;
+      padding: 5px;
+      text-align: center;
+      background-color: #242424;
+      border: 2px solid rgb(var(--element-color));;
+      border-radius: 50%;
+      display: flex;
+      gap: 3px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+
+      &.met {
+        box-shadow: 0 0 20px rgba(var(--element-color), 0.6);
+
+        img {
+          filter: none;
+        }
+      }
+
+      &.unmet {
+        border-bottom: 2px solid rgb(var(--element-color));
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        height: var(--percentage);
+        max-height: 100%;
+        background-color: rgba(var(--element-color), .4);
+        z-index: 0;
+      }
+
+      img {
+        width: 30px;
+        height: 30px;
+        filter: grayscale(1);
+        z-index: 1;
+      }
+
+      &> span {
+        font-size: 30px;
+      }
+
+      &> div {
+        color: #fff;
+      }
+    }
+
+    @container threshold (max-width: 260px) {
+      .threshold-element {
+        height: 45px;
+        width: 45px;
+        padding: 2px;
+
+        img {
+          width: 25px;
+          height: 25px;
+        }
+
+        span {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .spirit {
+    width: calc(50% - 33px);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .global-controls .spirit-selector .spirit-list {
+    --gutter: 10px;
+  }
+
+  .spirits {
+    gap: 20px;
+  }
+
+  .spirit {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .add-sprit {
+    min-height: 75px;
+    flex-basis: 100%;
+  }
+
+  .elements {
+    gap: 10px;
+    
+    .incrementors button {
+      --size: 25px;
+      font-size: 20px;
+    }
+
+    .element-info {
+      margin-bottom: 0;
+    }
+  }
+
 }

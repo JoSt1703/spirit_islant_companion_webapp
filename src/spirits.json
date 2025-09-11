@@ -3849,6 +3849,31 @@
     ],
     "Bringer of Dreams and Nightmares": [
         {
+            "Innate": "SPIRITS MAY YET DREAM",
+            "Thresholds": [
+                {
+                    "Elements": [
+                        {
+                            "Quantity": 2,
+                            "Element": "Moon"
+                        },
+                        {
+                            "Quantity": 2,
+                            "Element": "Air"
+                        }
+                    ]
+                },
+                {
+                    "Elements": [
+                        {
+                            "Quantity": 3,
+                            "Element": "Moon"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
             "Innate": "NIGHT TERRORS",
             "Thresholds": [
                 {
