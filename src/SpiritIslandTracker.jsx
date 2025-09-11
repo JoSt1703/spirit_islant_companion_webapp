@@ -64,21 +64,33 @@ function spiritDisplay(spiritName) {
 }
 
 const SpiritIslandTracker = () => {
-  const [spiritCount, setSpiritCount] = useState(1);
+  const [spiritArray, setSpiritArray] = useState([{ id: crypto.randomUUID() }]);
+
+  const removeSpirit = id => {
+    if (spiritArray.length === 1) return;
+    setSpiritArray(spiritArray.filter(spirit => spirit.id !== id))
+  }
+  
+  const addSpirit = () => {
+    setSpiritArray([
+      ...spiritArray,
+      {id: crypto.randomUUID()}
+    ])
+  }
 
   return (
     <div className="spirits">
-      <SpiritTracker />
-      <SpiritTracker />
-      <SpiritTracker />
-      <SpiritTracker />
-      <SpiritTracker />
-      <SpiritTracker />
+      {spiritArray.map(spirit => <SpiritTracker key={spirit.id} spiritId={spirit.id} removeSpirit={removeSpirit} />)}
+      {spiritArray.length < 6 && (
+        <div className="add-sprit" onClick={addSpirit}>
+          <div class="plus-button"></div>
+        </div>
+      )}
     </div>
   )
 }
 
-const SpiritTracker = () => {
+const SpiritTracker = ({spiritId, removeSpirit}) => {
   const [counts, setCounts] = useState(
     // track persistant elements (from board) and temporay ones
     elements.reduce((acc, el) => ({ ...acc, [el.name]: {temp: 0, persist: 0} }), {})
@@ -119,22 +131,23 @@ const SpiritTracker = () => {
   };
 
   return (
-    <div className={`spirit ${spiritClass(selectedSpirit)} ${spiritOpen ? 'open' : 'closed'}`} onClick={e => setSpiritOpen(true)}>
+    <div test={spiritId} className={`spirit ${spiritClass(selectedSpirit)} ${spiritOpen ? 'open' : 'closed'}`} onClick={e => setSpiritOpen(true)}>
       <div className="spirit-toggle" onClick={(e) => {e.stopPropagation(); setSpiritOpen(!spiritOpen)}}></div>
-      <SpiritContext.Provider value={{resetCounts, selectedSpirit, setSelectedSpirit}}>
+      <div className="spirit-remove" onClick={() => removeSpirit(spiritId)}></div>
+      <SpiritContext.Provider value={{selectedSpirit, setSelectedSpirit}}>
         <div className="global-controls">
           <SpiritSelector/>
-          <ResetButton />
         </div>
       </SpiritContext.Provider>
       <h4 className={elementsOpen ? 'open' : 'closed'} onClick={e => setElementsOpen(!elementsOpen)}>Elements</h4>
+      <SpiritContext.Provider value={{resetCounts, counts, updateCount}}>
       <div className="elements">
         {elements.map((el) => (
-          <SpiritContext.Provider value={{el, counts, updateCount}} key={el.name}>
-            <Element />
-          </SpiritContext.Provider>
+            <Element key={el.name} el={el} />
         ))}
+        <ResetButton />
       </div>
+      </SpiritContext.Provider>
       {selectedSpirit && (
         <>
           <h4 className={innatesOpen ? 'open' : 'closed'} onClick={e => setInnatesOpen(!innatesOpen)}>Innates</h4>
@@ -203,7 +216,7 @@ const Innate = ({ innate, counts, index }) => {
                       alt={elem.Element}
                     />
                   ) : (
-                    <span style={{ fontSize: "30px" }}>🃏</span>
+                    <span>🃏</span>
                   )}
                   <div style={{ fontSize: "0.9em" }}>
                     {elem.Quantity}
@@ -275,8 +288,8 @@ const ResetButton = () => {
   )
 }
 
-const Element = () => {
-  const {el, counts} = useContext(SpiritContext);
+const Element = ({el}) => {
+  const {counts} = useContext(SpiritContext);
 
   return (
     <div className={`element ${el.name.toLowerCase()}`} key={el.name} style={{ textAlign: "center" }}>
@@ -294,14 +307,14 @@ const Element = () => {
         {(el.name !== "Joker" && el.name !== "Energy") && <div className="persist-count">{counts[el.name].persist}</div>}
         <div className="total-count">{counts[el.name].temp + counts[el.name].persist}</div>
       </div>
-      <Incrementor type="temp" />
-      {((el.name !== "Joker" && el.name !== "Energy") ) && <Incrementor type="persist" />}
+      <Incrementor el={el} type="temp" />
+      {((el.name !== "Joker" && el.name !== "Energy") ) && <Incrementor el={el} type="persist" />}
     </div>
   )
 }
 
-const Incrementor = ({ type }) => {
-  const {el, updateCount} = useContext(SpiritContext);
+const Incrementor = ({ el, type }) => {
+  const {updateCount} = useContext(SpiritContext);
 
   return (
     <div className={`incrementors ${type}`}>

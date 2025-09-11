@@ -47,7 +47,9 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  align-self: end;
 }
+
 button:hover {
   border-color: #646cff;
 }
@@ -214,7 +216,7 @@ button:focus-visible {
   --spirit-color: 160, 82, 45;
 }
 .volcano-looming-high {
-  --spirit-color: 179 74 0;
+  --spirit-color: 179, 74, 0;
 }
 .wandering-voice-keens-delirium {
   --spirit-color: 128, 0, 128;
@@ -224,13 +226,53 @@ button:focus-visible {
 }
 
 .spirits {
-  padding: 50px;
+  padding: 20px;
   width: 100%;
   box-sizing: border-box;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  gap: 40px;
+}
+
+.add-sprit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   gap: 20px;
+  padding: 20px;
+  min-height: 333px;
+  border: 2px solid rgb(var(--spirit-color));
+  border-radius: 10px;
+  flex-basis: calc(34.41% - 33px);
+  position: relative;
+  cursor: pointer;
+}
+
+.plus-button {
+  position: relative;
+  cursor: pointer;
+  background-color: color-mix(in srgb, rgb(var(--spirit-color)) 55%, black 45%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  &::after,
+  &::before {
+    content: '';
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    height: 4px;
+    width: 50%;
+  }
+
+  &::before {transform: rotate(90deg);}
 }
 
 .spirit {
@@ -244,7 +286,7 @@ button:focus-visible {
   border: 2px solid rgb(var(--spirit-color));
   background-color: rgba(var(--spirit-color), .2);
   border-radius: 10px;
-  flex-basis: calc(33% - 33px);
+  width: calc(33% - 33px);
   flex-grow: 1;
   position: relative;
 
@@ -288,7 +330,8 @@ button:focus-visible {
     }
   }
 
-  .spirit-toggle {
+  .spirit-toggle,
+  .spirit-remove {
     position: absolute;
     cursor: pointer;
     top: -20px;
@@ -313,6 +356,16 @@ button:focus-visible {
 
     .closed &::before {content: '';transform: rotate(90deg);}
     &::after {content: '';}
+  }
+
+  .spirit-remove {
+    left: auto;
+    right: -20px;
+    &::before {content: '';transform: rotate(45deg);}
+    &::after {content: '';transform: rotate(-45deg)}
+    .closed & {
+      display: none;
+    }
   }
 
   &> h4 {
@@ -350,10 +403,12 @@ button:focus-visible {
   padding: 2px 6px;
   border-radius: 6px;
   margin-left: 5px;
+  display: inline-block;
 }
 
 .global-controls {
   display: flex;
+  flex-wrap: wrap;
   align-items: start;
   justify-content: space-between;
   width: 100%;
@@ -382,6 +437,8 @@ button:focus-visible {
         display: flex;
       }
 
+      img {max-width: 100%;}
+      
       img + span {
         position: absolute;
         left: 0;
@@ -441,9 +498,8 @@ button:focus-visible {
 .elements {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
   gap: 15px;
-  overflow-x: auto;
+  /* overflow-x: auto; */
 
   .closed + & {
     display: none;
@@ -507,6 +563,7 @@ button:focus-visible {
       bottom: var(--count-position);
       left: var(--count-position);
       font-size: 10px;
+      font-weight: 700;
       background: rgb(var(--element-color));
       color: #fff;
       color: color-mix(in srgb, rgb(var(--element-color)) 15%, white);
@@ -557,6 +614,7 @@ button:focus-visible {
 .innate-requirements {
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: flex-start;
   gap: 20px;
@@ -566,8 +624,7 @@ button:focus-visible {
   }
 
   .innate-power {
-    min-width: 25%;
-    max-width: 50%;
+    flex-basis: 40%;
     flex-grow: 1;
     border-radius: 5px;
     display: flex;
@@ -580,9 +637,12 @@ button:focus-visible {
   }
 
   .threshold-line {
+    container-type: inline-size;
+    container-name: threshold; 
     --border-width: 4px;
     position: relative;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 5px;
     border: var(--border-width) solid rgb(173 3 3);
@@ -636,7 +696,6 @@ button:focus-visible {
       z-index: 2;
 
       &.met {
-        /* border: 2px solid rgb(var(--element-color)); */
         box-shadow: 0 0 20px rgba(var(--element-color), 0.6);
 
         img {
@@ -667,9 +726,70 @@ button:focus-visible {
         z-index: 1;
       }
 
+      &> span {
+        font-size: 30px;
+      }
+
       &> div {
         color: #fff;
       }
     }
+
+    @container threshold (max-width: 260px) {
+      .threshold-element {
+        height: 45px;
+        width: 45px;
+        padding: 2px;
+
+        img {
+          width: 25px;
+          height: 25px;
+        }
+
+        span {
+          font-size: 20px;
+        }
+      }
+    }
   }
+}
+
+@media screen and (max-width: 1280px) {
+  .spirit {
+    width: calc(50% - 33px);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .global-controls .spirit-selector .spirit-list {
+    --gutter: 10px;
+  }
+
+  .spirits {
+    gap: 20px;
+  }
+
+  .spirit {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .add-sprit {
+    min-height: 75px;
+    flex-basis: 100%;
+  }
+
+  .elements {
+    gap: 10px;
+    
+    .incrementors button {
+      --size: 25px;
+      font-size: 20px;
+    }
+
+    .element-info {
+      margin-bottom: 0;
+    }
+  }
+
 }
